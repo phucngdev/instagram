@@ -16,3 +16,25 @@ module.exports.register = async (user) => {
     message: "Đăng ký thành công",
   };
 };
+
+module.exports.login = async (user) => {
+  console.log(user);
+  const { username, password } = user;
+  // Tìm tài khoản trong cơ sở dữ liệu dựa trên username
+  const findUser = await Account.findOne({ username });
+  // Kiểm tra xem tài khoản có tồn tại không
+  if (!username) {
+    return res.status(401).json({ error: "Tên đăng nhập không tồn tại" });
+  }
+  // Kiểm tra mật khẩu
+  const isPasswordValid = await bcrypt.compare(password, findUser.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ error: "Mật khẩu không đúng" });
+  }
+  return {
+    status: 200,
+    data: {
+      user: findUser,
+    },
+  };
+};

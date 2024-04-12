@@ -1,4 +1,5 @@
 const { Account } = require("../../models/Account.model");
+const bcrypt = require("bcrypt");
 
 module.exports.checkUsername = async (req, res, next) => {
   const { username } = req.body;
