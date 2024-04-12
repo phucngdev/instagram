@@ -23,7 +23,6 @@ const accountSchema = new mongoose.Schema(
     },
     name: {
       type: Number,
-      required: true,
     },
     following: [
       {
@@ -57,9 +56,11 @@ const accountSchema = new mongoose.Schema(
     ],
     status: {
       type: Number,
+      default: 0,
     },
     gender: {
       type: String,
+      default: "Nam",
     },
   },
   { timestamps: true }
