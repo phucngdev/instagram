@@ -1,4 +1,4 @@
-const registerMiddleware = require("../../middlewares/auth/auth.middleware");
+const authMiddleware = require("../../middlewares/auth/auth.middleware");
 const authController = require("../../controllers/auth/authController");
 const authValidation = require("../../validations/auth/authValidation");
 const routerAuth = require("express").Router();
@@ -7,7 +7,7 @@ const routerAuth = require("express").Router();
 routerAuth.post(
   "/register",
   authValidation.checkIsBody,
-  registerMiddleware.checkUsername,
+  authMiddleware.checkUsername,
   authController.registerUser
 );
 
@@ -15,6 +15,6 @@ routerAuth.post(
 routerAuth.post("/login", authValidation.checkIsBody, authController.loginUser);
 
 // đăng xuất
-routerAuth.post("/logout");
+routerAuth.post("/logout", authController.logOutUser);
 
 module.exports = routerAuth;

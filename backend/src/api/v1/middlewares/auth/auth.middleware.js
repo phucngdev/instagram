@@ -1,4 +1,5 @@
 const { Account } = require("../../models/Account.model");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 module.exports.checkUsername = async (req, res, next) => {
@@ -14,5 +15,22 @@ module.exports.checkUsername = async (req, res, next) => {
   } catch (error) {
     console.error("Lỗi check username:", error);
     return res.status(500).json({ error: "Bad request" });
+  }
+};
+
+module.exports.verifyTokenLogin = (req, res, next) => {
+  const token = req.headers.token;
+  const refreshToken = req.cookies.refreshToken;
+  if (token) {
+    const accessToken = token.split(" ")[1];
+    jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
+      if (err) {
+        res.status(403).json("Token không tồn tại!");
+      }
+      req.user = user;
+      next();
+    });
+  } else {
+    res.status(401).json("Token không tồn tại!");
   }
 };

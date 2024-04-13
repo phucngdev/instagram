@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../services/user/auth.service";
+import Cookies from "js-cookie";
 
 export const bottomLogin = [
   "Meta",
@@ -44,7 +45,15 @@ const Login = () => {
         password: values.password,
       };
       setIsLoading(true);
-      await dispatch(login(userLogin));
+      const response = await dispatch(login(userLogin));
+      console.log(response);
+      const userJson = JSON.stringify(response?.payload?.result.data.user);
+      Cookies.set("user", userJson, {
+        expires: 8 / 24,
+      });
+      Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
+        expires: 8 / 24,
+      });
       resetForm();
       setIsLoading(false);
       message.success("Hello!");

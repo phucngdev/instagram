@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import Sidebar from "../layouts/user/Sidebar";
+import { Navigate, Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const PublicRouter = () => {
-  return <></>;
+  const [isLogin, setIsLogin] = useState(() => {
+    const tokenCookies = Cookies.get("token");
+    if (tokenCookies) {
+      const tokenObject = JSON.parse(tokenCookies);
+      return tokenObject;
+    }
+    return false;
+  });
+  return (
+    <>
+      {isLogin ? (
+        <>
+          <Sidebar />
+          <div className="ms-[245px] h-[100vh] bg-black">
+            <Outlet />
+          </div>
+        </>
+      ) : (
+        <Navigate to="/accounts/login" />
+      )}
+    </>
+  );
 };
 
 export default PublicRouter;

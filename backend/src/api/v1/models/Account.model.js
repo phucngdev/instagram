@@ -62,6 +62,10 @@ const accountSchema = new mongoose.Schema(
       type: String,
       default: "Nam",
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
