@@ -15,8 +15,8 @@ const socketIo = require("socket.io")(server, {
 });
 
 socketIo.on("connection", (socket) => {
-  console.log("New client connected" + socket.id);
-  socket.emit("getId", socket.id);
+  // console.log("New client connected" + socket.id);
+  // socket.emit("getId", socket.id);
   socket.on("sendDataClient", function (data) {
     console.log(data);
     socketIo.emit("sendDataServer", { data });

@@ -63,49 +63,49 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/"
-            className="w-full h-[52px] mt-6 text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] mt-6 text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <AppstoreOutlined />
             Home
           </Link>
           <Link
             to="/search"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <SearchOutlined />
             Search
           </Link>
           <Link
             to="/explore"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <CompassOutlined />
             Explore
           </Link>
           <Link
             to="/reels"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <PlaySquareOutlined />
             Reels
           </Link>
           <Link
-            to="/messages"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            to="/message"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <MessageOutlined />
             Messages
           </Link>
           <Link
             to="/notification"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <BellOutlined />
             Notification
           </Link>
           <button
             onClick={() => setOpenCreate(true)}
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <PlusOutlined />
             Create
@@ -116,20 +116,20 @@ const Sidebar = () => {
           ></ModalCreate> */}
           <Link
             to="/profile"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <IdcardOutlined />
             Profile
           </Link>
         </div>
         <div className="flex flex-col mb-10">
-          <button className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800">
+          <button className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800">
             <PinterestOutlined />
             Threads
           </button>
           <button
             onClick={() => setOpenMore(true)}
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-gray-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <MenuOutlined />
             More

@@ -20,12 +20,11 @@ module.exports.register = async (user) => {
 };
 
 module.exports.login = async (user) => {
-  console.log(user);
   const { username, password } = user;
   // Tìm tài khoản trong cơ sở dữ liệu dựa trên username
   const findUser = await Account.findOne({ username });
   // Kiểm tra xem tài khoản có tồn tại không
-  if (!username) {
+  if (!findUser) {
     return res.status(401).json({ error: "Tên đăng nhập không tồn tại" });
   }
   // Kiểm tra mật khẩu
@@ -33,10 +32,15 @@ module.exports.login = async (user) => {
   if (!isPasswordValid) {
     return res.status(401).json({ error: "Mật khẩu không đúng" });
   }
+  const {
+    password: _,
+    inbox: [],
+    ...userData
+  } = findUser.toObject();
   return {
     status: 200,
     data: {
-      user: findUser,
+      user: userData,
     },
   };
 };

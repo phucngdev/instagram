@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { RoomChat } = require("./RoomChat.medel");
 
 const accountSchema = new mongoose.Schema(
   {
@@ -20,10 +21,13 @@ const accountSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+      default:
+        "https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
     },
     name: {
-      type: Number,
+      type: String,
     },
+    roomchat: [{ type: mongoose.Schema.Types.ObjectId, ref: "RoomChat" }],
     following: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -46,18 +46,23 @@ const Login = () => {
       };
       setIsLoading(true);
       const response = await dispatch(login(userLogin));
-      console.log(response);
-      const userJson = JSON.stringify(response?.payload?.result.data.user);
-      Cookies.set("user", userJson, {
-        expires: 8 / 24,
-      });
-      Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
-        expires: 8 / 24,
-      });
-      resetForm();
-      setIsLoading(false);
-      message.success("Hello!");
-      navigate("/");
+      console.log(response?.payload?.result?.data?.user);
+      if (response?.payload?.result?.data?.user) {
+        Cookies.set(
+          "user",
+          JSON.stringify(response?.payload?.result?.data?.user),
+          {
+            expires: 8 / 24,
+          }
+        );
+        Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
+          expires: 8 / 24,
+        });
+        message.success("Hello!");
+        navigate("/");
+        resetForm();
+        setIsLoading(false);
+      }
     },
   });
   return (
