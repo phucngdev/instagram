@@ -28,8 +28,10 @@ module.exports.createRoomService = async (room) => {
 
 // lấy thông tin phòng
 module.exports.getRoomService = async (id) => {
-  const roomChat = await RoomChat.findById(id).populate("member");
-  console.log(roomChat);
+  const roomChat = await RoomChat.findById(id).populate({
+    path: "member",
+    select: "_id username", // chỉ lấy _id và username trong member
+  });
   if (!roomChat) {
     return {
       status: 404,
@@ -54,7 +56,6 @@ module.exports.deleteRoomService = async (id) => {
   }
   // tìm roomchat muón xoá
   const deletedRoom = await RoomChat.findById(roomId);
-  console.log(deletedRoom);
   if (!deletedRoom) {
     return res.status(404).json({ message: "RoomChat not found" });
   }
