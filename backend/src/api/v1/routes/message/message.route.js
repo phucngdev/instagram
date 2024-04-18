@@ -1,12 +1,12 @@
 const routerMessage = require("express").Router();
+const mesControler = require("../../controllers/message/messageController");
+const mesMiddleware = require("../../middlewares/message/message.middleware");
 
-// dự định lấy thông tin các phòng chat
-routerMessage.get("/inbox");
-
-// dự định lấy tin nhắn theo id room
-routerMessage.get("/:id");
-
-// dự định gửi tin nhắn theo id room
-routerMessage.post("/:id");
+// gửi tin nhắn 1 vs 1
+routerMessage.post(
+  "/:roomId/:senderId",
+  mesMiddleware.checkUserSendMes,
+  mesControler.sendMesSingle
+);
 
 module.exports = routerMessage;

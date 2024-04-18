@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { RoomChat } = require("./RoomChat.medel");
 
 const accountSchema = new mongoose.Schema(
   {

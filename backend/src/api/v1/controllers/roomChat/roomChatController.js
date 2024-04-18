@@ -11,11 +11,35 @@ module.exports.createRoom = async (req, res) => {
   }
 };
 
+// tạo room mới 1 vs 1
+module.exports.createRoomSingle = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await RoomService.createRoomSingleService(req.body, id);
+    res.status(result.status).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Lỗi server");
+  }
+};
+
+// lấy tất cả room
+module.exports.getAllRoom = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await RoomService.getAllRoomService(id);
+    res.status(result.status).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Lỗi server");
+  }
+};
+
 // lấy thông tin room
 module.exports.getRoom = async (req, res) => {
   try {
-    const id = req.params.id;
-    const result = await RoomService.getRoomService(id);
+    const { userId, roomId } = req.params;
+    const result = await RoomService.getRoomService(userId, roomId);
     res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
@@ -60,6 +84,17 @@ module.exports.addUserToRoom = async (req, res) => {
 module.exports.removeUserFromRoom = async (req, res) => {
   try {
     const result = await RoomService.removeFromRoom(req);
+    res.status(result.status).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Lỗi server");
+  }
+};
+
+// user rời khỏi room
+module.exports.leaveRoom = async (req, res) => {
+  try {
+    const result = await RoomService.leaveRoomService(req);
     res.status(result.status).json(result);
   } catch (error) {
     console.error(error);

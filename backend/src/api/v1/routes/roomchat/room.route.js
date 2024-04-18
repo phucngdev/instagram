@@ -3,8 +3,14 @@ const roomController = require("../../controllers/roomChat/roomChatController");
 // tạo room chat mới
 routerRoomChat.post("/createroom", roomController.createRoom);
 
+// tạo room chat 1 vs 1 mới
+routerRoomChat.post("/createroomsingle/:id", roomController.createRoomSingle);
+
+// lấy tất cả phòng chat
+routerRoomChat.get("/direct/:id", roomController.getAllRoom);
+
 // lấy thông tin phòng chat
-routerRoomChat.get("/:id", roomController.getRoom);
+routerRoomChat.get("/:userId/:roomId", roomController.getRoom);
 
 // xoá roomchat
 routerRoomChat.delete("/deleteroom/:id", roomController.deleteRoom);
@@ -20,5 +26,7 @@ routerRoomChat.delete(
   "/deletefromroom/:roomId/:userId':adminId",
   roomController.removeUserFromRoom
 );
+
+routerRoomChat.post("/leaveroom/:id", roomController.leaveRoom);
 
 module.exports = routerRoomChat;

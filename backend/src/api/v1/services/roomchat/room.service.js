@@ -1,5 +1,6 @@
 const { Account } = require("../../models/Account.model");
 const { RoomChat } = require("../../models/RoomChat.medel");
+const utilsAccount = require("../../utils/account/findUser");
 
 module.exports.createRoomService = async (room) => {
   const { idMemberCreate, roomname } = room;
@@ -26,13 +27,80 @@ module.exports.createRoomService = async (room) => {
   };
 };
 
-// lấy thông tin phòng
-module.exports.getRoomService = async (id) => {
-  const roomChat = await RoomChat.findById(id).populate({
-    path: "member",
-    select: "_id username", // chỉ lấy _id và username trong member
+// tạo phòng chat 1 vs 1 khi click lần đầu
+module.exports.createRoomSingleService = async (req, id) => {
+  const { senderId, receiverId } = req;
+  if (id != senderId) {
+    return {
+      status: 500,
+      message: "lỗi server",
+    };
+  }
+  const sender = await Account.findById(senderId);
+  const receiver = await Account.findById(receiverId);
+  if (!sender || !receiver) {
+    return {
+      status: 404,
+      message: "user not found",
+    };
+  }
+  const newRoom = new RoomChat({
+    roomAdmin: [sender._id],
+    roomname: receiver.username,
+    member: [sender._id],
+    contentInbox: [],
   });
-  if (!roomChat) {
+  const newRoomUser = await newRoom.save();
+  sender.roomchat.unshift(newRoomUser);
+  await sender.save();
+  return {
+    status: 201,
+    message: "Tạo mới thành công",
+    room: newRoom,
+  };
+};
+
+// lấy danh sách phòng chat
+module.exports.getAllRoomService = async (id) => {
+  const findUser = await Account.findById(id)
+    .select("username _id roomchat") // chỉ lấy _id username roomchat của user
+    .populate({
+      path: "roomchat", // lấy thông tin của roomchat
+      populate: { path: "member", select: "_id username avatar" }, // lấy thông tin của member trong roomchat
+    });
+  if (!findUser) {
+    return {
+      status: 404,
+      message: "user not found",
+    };
+  }
+  return {
+    status: 200,
+    listroom: findUser,
+  };
+};
+
+// lấy thông tin phòng
+module.exports.getRoomService = async (userId, roomId) => {
+  const findUser = await Account.findById(userId);
+  const findRoom = await RoomChat.findById(roomId).populate([
+    {
+      path: "member",
+      select: "_id username avatar", // chỉ lấy _id và username trong member
+    },
+    {
+      path: "contentInbox",
+    },
+  ]);
+  if (!findUser) return { status: 404, message: "user not found" };
+  const isMember = findRoom.member.some((member) => member._id.equals(userId));
+  if (!isMember) {
+    return {
+      status: 400,
+      message: "Người dùng không tồn tại trong phòng chat",
+    };
+  }
+  if (!findRoom) {
     return {
       status: 404,
       message: "Roomchat not found",
@@ -40,7 +108,7 @@ module.exports.getRoomService = async (id) => {
   }
   return {
     status: 200,
-    roomChat,
+    findRoom: findRoom,
   };
 };
 
@@ -183,5 +251,41 @@ module.exports.removeFromRoom = async (req) => {
   return {
     status: 200,
     message: "Xoá người dùng khỏi phòng chat thành công",
+  };
+};
+
+// user tự rời khỏi room
+module.exports.leaveRoomService = async (req) => {
+  const { userId, roomId } = req.body;
+  const findUser = await Account.findById(userId);
+  const findRoom = await RoomChat.findById(roomId);
+  // Kiểm tra xem người dùng và phòng chat có tồn tại không
+  if (!findUser || !findRoom) {
+    return {
+      status: 404,
+      message: "User or room not found",
+    };
+  }
+  // Kiểm tra xem người dùng có trong phòng chat không
+  const isMember = findRoom.member.some((member) => member._id.equals(userId));
+  if (!isMember) {
+    return {
+      status: 400,
+      message: "Ngừoi dùng không trong room chat",
+    };
+  }
+  // Loại bỏ người dùng khỏi phòng chat
+  findRoom.member = findRoom.member.filter(
+    (member) => !member._id.equals(userId)
+  );
+  await findRoom.save();
+  // Loại bỏ phòng chat khỏi danh sách phòng chat của người dùng
+  findUser.roomchat = findUser.roomchat.filter(
+    (chat) => !chat._id.equals(roomId)
+  );
+  await findUser.save();
+  return {
+    status: 200,
+    message: "Rời khỏi phòng thành công",
   };
 };

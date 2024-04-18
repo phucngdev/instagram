@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // xác thưc
 app.use("/api/v1/auth", routerAuth);
 // tin nhắn
-app.use("/api/v1/direct", routerMessage);
+app.use("/api/v1/inbox", routerMessage);
 // phòng chat
 app.use("/api/v1/roomchat", routerRoomChat);
 // tài khoản
