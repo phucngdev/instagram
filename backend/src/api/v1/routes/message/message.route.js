@@ -9,4 +9,10 @@ routerMessage.post(
   mesControler.sendMesSingle
 );
 
+routerMessage.delete(
+  "/deletemessage/:roomId/:messageId",
+  mesMiddleware.checkUserAndMesIdAndRoonId,
+  mesControler.deleteMess
+);
+
 module.exports = routerMessage;

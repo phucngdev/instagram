@@ -1,28 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDataUser } from "../../services/user/account.service";
+import { sendInbox } from "../../services/user/message.service";
 
-const accountSlice = createSlice({
-  name: "account",
+const messageSlice = createSlice({
+  name: "message",
   initialState: {
     data: [],
-    list: [],
     status: "idle",
     error: null,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getDataUser.pending, (state) => {
+      .addCase(sendInbox.pending, (state) => {
         state.status = "Pending!";
       })
-      .addCase(getDataUser.fulfilled, (state, action) => {
+      .addCase(sendInbox.fulfilled, (state, action) => {
         state.status = "Successfully!";
         state.data = action.payload;
       })
-      .addCase(getDataUser.rejected, (state, action) => {
+      .addCase(sendInbox.rejected, (state, action) => {
         state.status = "Failed!";
         state.error = action.error.message;
       });
   },
 });
 
-export default accountSlice.reducer;
+export default messageSlice.reducer;

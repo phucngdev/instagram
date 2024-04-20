@@ -8,9 +8,10 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Button, Image, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataUser, sendInbox } from "../../services/user/account.service";
+import { getDataUser } from "../../services/user/account.service";
 import Cookies from "js-cookie";
 import UploadImage from "../../utils/UploadImage";
+import { createRoomSingle } from "../../services/user/room.service";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,14 +40,14 @@ const Profile = () => {
       setOpenPhoto(true);
     }
   };
-
+  console.log(dataUser);
   const handleChat = async () => {
     const firstInbox = {
+      id: userLogin?._id,
       senderId: userLogin?._id,
       receiverId: dataUser?.result?._id,
-      content: "Hello",
     };
-    await dispatch(sendInbox(firstInbox));
+    await dispatch(createRoomSingle(firstInbox));
     navigate(`/message/${id}`);
   };
 
@@ -139,7 +140,7 @@ const Profile = () => {
                   </Button>
                   <Button
                     className="bg-[#363636] text-white font-semibold"
-                    onClick={handleChat}
+                    onClick={() => handleChat()}
                   >
                     Message
                   </Button>

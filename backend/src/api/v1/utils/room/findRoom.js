@@ -8,7 +8,5 @@ module.exports.findRoomById = async (id) => {
       message: "room not found",
     };
   }
-  return {
-    findRoom: findRoom,
-  };
+  return findRoom;
 };

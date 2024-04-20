@@ -8,7 +8,5 @@ module.exports.findUserById = async (id) => {
       message: "user not found",
     };
   }
-  return {
-    findUser: findUser,
-  };
+  return findUser;
 };

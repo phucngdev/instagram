@@ -10,7 +10,7 @@ routerRoomChat.post("/createroomsingle/:id", roomController.createRoomSingle);
 routerRoomChat.get("/direct/:id", roomController.getAllRoom);
 
 // lấy thông tin phòng chat
-routerRoomChat.get("/:userId/:roomId", roomController.getRoom);
+routerRoomChat.get("/direct/:userId/:roomId", roomController.getRoom);
 
 // xoá roomchat
 routerRoomChat.delete("/deleteroom/:id", roomController.deleteRoom);

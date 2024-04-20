@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "test": "jest message.test.js",
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "test": "jest message.test.js"
   },
   "author": "",
   "license": "ISC",

@@ -4,7 +4,7 @@ const { Message } = require("../../models/Message.model");
 
 // gửi tin nhắn
 module.exports.sendMesSingleService = async (req) => {
-  const { roomId, senderId, receiverId, content } = req.body;
+  const { roomId, senderId, receiverId, content } = req;
   const findRoom = await RoomChat.findById(roomId);
   // tạo tin nhắn
   const newMessage = new Message({
@@ -24,4 +24,16 @@ module.exports.sendMesSingleService = async (req) => {
 };
 
 // xoá tin nhắn
-module.exports.deleteMesService = async (req) => {};
+module.exports.deleteMesService = async (req) => {
+  const { roomId, messageId } = req;
+  const findRoom = await RoomChat.findById(roomId);
+  // xóa tin nhắn
+  await Message.findByIdAndDelete(messageId);
+  // Xóa tin nhắn khỏi danh sách tin nhắn của phòng chat
+  findRoom.contentInbox.pull(messageId);
+  await findRoom.save();
+  return {
+    status: 200,
+    message: "Xoá thành công",
+  };
+};

@@ -44,10 +44,23 @@ module.exports.createRoomSingleService = async (req, id) => {
       message: "user not found",
     };
   }
+  // Kiểm tra xem có phòng chứa cả hai người dùng không
+  const existingRoom = await RoomChat.findOne({
+    roomAdmin: { $all: [sender._id, receiver._id] },
+    member: { $all: [receiver._id, receiver._id] },
+  });
+  // kiểm tra phòng và đkien phòng có 2 ngừoi
+  if (existingRoom && existingRoom.member.length === 2) {
+    return {
+      status: 200,
+      message: "Phòng trò chuyện đã tồn tại",
+      room: existingRoom,
+    };
+  }
   const newRoom = new RoomChat({
-    roomAdmin: [sender._id],
+    roomAdmin: [sender._id, receiver._id],
     roomname: receiver.username,
-    member: [sender._id],
+    member: [sender._id, receiver._id],
     contentInbox: [],
   });
   const newRoomUser = await newRoom.save();
@@ -66,6 +79,7 @@ module.exports.getAllRoomService = async (id) => {
     .select("username _id roomchat") // chỉ lấy _id username roomchat của user
     .populate({
       path: "roomchat", // lấy thông tin của roomchat
+      select: "_id member roomAdmin roomname",
       populate: { path: "member", select: "_id username avatar" }, // lấy thông tin của member trong roomchat
     });
   if (!findUser) {

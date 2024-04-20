@@ -13,8 +13,10 @@ module.exports.registerUser = async (req, res) => {
 module.exports.loginUser = async (req, res) => {
   try {
     const result = await authService.login(req.body);
-    const accessToken = await authService.generateAccessToken(result);
-    res.status(200).json({ result: result, accessToken: accessToken });
+    const accessToken = await authService.generateAccessToken(result.data.user);
+    res
+      .status(result.status)
+      .json({ result: result, accessToken: accessToken });
   } catch (err) {
     res.status(500).json(err);
   }

@@ -46,7 +46,6 @@ const Login = () => {
       };
       setIsLoading(true);
       const response = await dispatch(login(userLogin));
-      console.log(response?.payload?.result?.data?.user);
       if (response?.payload?.result?.data?.user) {
         Cookies.set(
           "user",

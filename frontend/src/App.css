@@ -3,14 +3,9 @@
   width: 5px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #dadada;
+  background: #171717;
   border-radius: 1em;
 }
 
