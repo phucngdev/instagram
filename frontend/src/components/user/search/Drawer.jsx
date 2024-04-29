@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Input } from "antd";
+import { Drawer, Input, message } from "antd";
 import "../../../assets/user/DrawerSearch.css";
 import _debounce from "lodash/debounce";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +30,13 @@ const DrawerSearch = ({ onClose, open }) => {
     onClose();
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!query) {
+      message.error("không có nội dung tìm kiếm");
+    }
+  };
+
   return (
     <>
       <Drawer
@@ -44,13 +51,16 @@ const DrawerSearch = ({ onClose, open }) => {
         onClose={onClose}
         open={open}
       >
-        <Input
-          placeholder="Search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="text-black bg-slate-200 hover:bg-white focus-within:bg-white placeholder-black"
-          allowClear
-        />
+        <form onSubmit={handleSubmit}>
+          <Input
+            placeholder="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="text-black bg-slate-200 hover:bg-white focus-within:bg-white placeholder-black"
+            allowClear
+          />
+          <button type="submit" hidden></button>
+        </form>
 
         <div className="mt-10">
           {dataSearch ? (
