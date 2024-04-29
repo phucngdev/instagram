@@ -15,7 +15,7 @@ const ListChat = ({ userLogin }) => {
 
   // lấy danh sách room chat
   const listRoom = useSelector((state) => state.room.list);
-  console.log(listRoom);
+
   const loadListRoom = async () => {
     await dispatch(getAllRoom(userLogin?._id));
   };
@@ -27,7 +27,7 @@ const ListChat = ({ userLogin }) => {
     <>
       <div className="w-[350px] h-[100vh] border-e border-gray-800 overflow-scroll">
         <div className="px-6 pt-9 pb-3 text-white text-xl font-bold flex items-center justify-between">
-          <h3>{userLogin?.username}</h3>
+          <h3>{userLogin?.username || userLogin?.phone}</h3>
           <FormOutlined className="text-white" />
         </div>
         <div className="flex items-center justify-between px-6 pt-[14px] pb-[10px] ">
@@ -76,9 +76,13 @@ const ListChat = ({ userLogin }) => {
               </Avatar.Group>
               <div className="flex flex-col ms-3">
                 {ib?.member?.map((mb) => (
-                  <span key={mb?._id} className="text-white font-normal">
-                    {mb?._id !== userLogin?._id ? <>{mb.username}</> : <></>}
-                  </span>
+                  <div key={mb?._id} className="flex items-center gap-2">
+                    <span className="text-white font-normal">
+                      {mb?._id !== userLogin?._id && (
+                        <>{mb.username || mb.phone}</>
+                      )}
+                    </span>
+                  </div>
                 ))}
                 <span className="text-gray-400 text-sm">active 17h ago</span>
               </div>

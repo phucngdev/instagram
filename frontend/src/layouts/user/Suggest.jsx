@@ -31,10 +31,10 @@ const Suggest = () => {
             )}
             <div className="flex flex-col">
               <Link
-                to={`/${user.username}`}
+                to={`/${user.phone}`}
                 className="text-[#f5f5f5] text-sm font-bold"
               >
-                {user.username}
+                {user.username || user.phone}
               </Link>
               <span className="text-[#a8a8a8] font-light text-sm">
                 {user?.fullname}

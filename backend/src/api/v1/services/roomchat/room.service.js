@@ -59,7 +59,7 @@ module.exports.createRoomSingleService = async (req, id) => {
   }
   const newRoom = new RoomChat({
     roomAdmin: [sender._id, receiver._id],
-    roomname: receiver.username,
+    roomname: `${receiver.phone}, ${sender.phone}`,
     member: [sender._id, receiver._id],
     contentInbox: [],
   });
@@ -76,11 +76,11 @@ module.exports.createRoomSingleService = async (req, id) => {
 // lấy danh sách phòng chat
 module.exports.getAllRoomService = async (id) => {
   const findUser = await Account.findById(id)
-    .select("username _id roomchat") // chỉ lấy _id username roomchat của user
+    .select("phone _id roomchat") // chỉ lấy _id phone roomchat của user
     .populate({
       path: "roomchat", // lấy thông tin của roomchat
       select: "_id member roomAdmin roomname",
-      populate: { path: "member", select: "_id username avatar" }, // lấy thông tin của member trong roomchat
+      populate: { path: "member", select: "_id phone avatar" }, // lấy thông tin của member trong roomchat
     });
   if (!findUser) {
     return {
@@ -100,7 +100,7 @@ module.exports.getRoomService = async (userId, roomId) => {
   const findRoom = await RoomChat.findById(roomId).populate([
     {
       path: "member",
-      select: "_id username avatar", // chỉ lấy _id và username trong member
+      select: "_id phone avatar", // chỉ lấy _id và phone trong member
     },
     {
       path: "contentInbox",

@@ -15,12 +15,14 @@ const socketIo = require("socket.io")(server, {
 });
 
 socketIo.on("connection", (socket) => {
-  // console.log("New client connected" + socket.id);
-  // socket.emit("getId", socket.id);
   socket.on("sendDataClient", function (data) {
-    console.log(data);
     socketIo.emit("sendDataServer", { data });
   });
+  socket.on("newNotification", (data) => {
+    // Sau đó gửi tin nhắn đến tất cả các người dùng kết nối
+    socketIo.emit("notification", { data });
+  });
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });

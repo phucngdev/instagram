@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import {
   CloseOutlined,
   EllipsisOutlined,
@@ -40,19 +41,28 @@ const Profile = () => {
       setOpenPhoto(true);
     }
   };
-  console.log(dataUser);
+
   const handleChat = async () => {
     const firstInbox = {
       id: userLogin?._id,
       senderId: userLogin?._id,
       receiverId: dataUser?.result?._id,
     };
-    await dispatch(createRoomSingle(firstInbox));
-    navigate(`/message/${id}`);
+    const newRoom = await dispatch(createRoomSingle(firstInbox));
+    console.log(newRoom);
+    navigate(`/message/${newRoom?.payload?.room?._id}/${userLogin?._id}`);
   };
 
   return (
     <>
+      <Helmet>
+        <title>
+          {dataUser?.result?.username ||
+            dataUser?.result?.phone ||
+            userLogin?.username ||
+            userLogin?.phone}
+        </title>
+      </Helmet>
       <div className="max-w-[935px] mx-auto px-5 pt-5">
         <header className="h-[150px] w-full mb-[44px] flex items-center">
           <div className="w-[290px] h-full flex items-center justify-center">
@@ -61,13 +71,11 @@ const Profile = () => {
               height={150}
               onClick={handleOpenAvatar}
               preview={
-                userLogin?.username === dataUser?.result?.username
-                  ? false
-                  : true
+                userLogin?.phone === dataUser?.result?.phone ? false : true
               }
               className="bg-gray-500 w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
               src={
-                userLogin?.username === dataUser?.result?.username
+                userLogin?.phone === dataUser?.result?.phone
                   ? userLogin?.avatar
                   : dataUser?.result?.avatar
               }
@@ -112,9 +120,9 @@ const Profile = () => {
           <div className="flex flex-col flex-1">
             <div className="flex items-center gap-7">
               <h3 className="text-[20px] text-white font-normal">
-                {dataUser?.result?.username}
+                {dataUser?.result?.username || dataUser?.result?.phone}
               </h3>
-              {userLogin?.username === dataUser?.result?.username ? (
+              {userLogin?.phone === dataUser?.result?.phone ? (
                 <div className="flex flex-1 items-center gap-3">
                   <Button
                     type="default"

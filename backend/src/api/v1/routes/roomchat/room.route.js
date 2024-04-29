@@ -1,10 +1,15 @@
 const routerRoomChat = require("express").Router();
 const roomController = require("../../controllers/roomChat/roomChatController");
+const roomValidation = require("../../validations/room/roomValidation");
 // tạo room chat mới
 routerRoomChat.post("/createroom", roomController.createRoom);
 
 // tạo room chat 1 vs 1 mới
-routerRoomChat.post("/createroomsingle/:id", roomController.createRoomSingle);
+routerRoomChat.post(
+  "/createroomsingle/:id",
+  roomValidation.validationCreateRoom,
+  roomController.createRoomSingle
+);
 
 // lấy tất cả phòng chat
 routerRoomChat.get("/direct/:id", roomController.getAllRoom);

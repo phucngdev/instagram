@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { bottomLogin } from "./Login";
 import { register } from "../../services/user/auth.service";
 import { useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -16,34 +17,56 @@ const Register = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      phone: "",
       password: "",
       repassword: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Tên không được để trống"),
-      password: Yup.string().required("Mật khẩu không được để trống"),
+      phone: Yup.string()
+        .matches(
+          /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/,
+          "Số điện thoại không hợp lệ"
+        )
+        .required("Số điện thoại không được để trống"),
+      password: Yup.string()
+        .required("Mật khẩu không được để trống")
+        .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
       repassword: Yup.string()
         .required("Nhập lại mật khẩu")
         .oneOf([Yup.ref("password"), null], "Mật khẩu không khớp"), // Kiểm tra password và repassword có giống nhau không
     }),
     onSubmit: async (values, { resetForm }) => {
-      const newUser = {
-        username: values.username,
-        password: values.password,
-      };
-      setIsLoading(true);
-      await dispatch(register(newUser));
-      resetForm();
-      setIsLoading(false);
-      message.success({
-        content: "Đăng ký thành công. Welcome!",
-      });
-      navigate("/accounts/login");
+      try {
+        const newUser = {
+          phone: values.phone,
+          password: values.password,
+        };
+        setIsLoading(true);
+        const registerUser = await dispatch(register(newUser));
+        if (!registerUser?.payload) {
+          resetForm();
+          setIsLoading(false);
+          message.error({
+            content: "Số điện thoại đã được đăng ký!",
+          });
+          return;
+        }
+        resetForm();
+        setIsLoading(false);
+        message.success({
+          content: "Đăng ký thành công. Welcome!",
+        });
+        navigate("/accounts/login");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
     <>
+      <Helmet>
+        <title>Đăng ký - Instagram</title>
+      </Helmet>
       {isLoading && (
         <>
           <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
@@ -65,15 +88,15 @@ const Register = () => {
                 <div className="mb-2">
                   <input
                     type="text"
-                    name="username"
-                    value={formik.values.username}
+                    name="phone"
+                    value={formik.values.phone}
                     onChange={formik.handleChange}
                     className="text-[13px] mt-6 border border-gray-200 w-full h-[38px] px-2"
-                    placeholder="Tên đăng nhập"
+                    placeholder="Số điện thoại"
                   />
-                  {formik.touched.username && formik.errors.username ? (
+                  {formik.touched.phone && formik.errors.phone ? (
                     <div className="text-red-500 text-sm">
-                      {formik.errors.username}
+                      {formik.errors.phone}
                     </div>
                   ) : null}
                 </div>

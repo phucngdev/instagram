@@ -6,7 +6,8 @@ export const login = createAsyncThunk("login", async (data) => {
     let response = await BaseUrl.post("auth/login", data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
+    return null;
   }
 });
 

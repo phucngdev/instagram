@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../services/user/auth.service";
 import Cookies from "js-cookie";
+import { Helmet } from "react-helmet";
 
 export const bottomLogin = [
   "Meta",
@@ -32,33 +33,48 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
-      username: "",
+      phone: "",
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Tên không được để trống"),
+      phone: Yup.string()
+        .matches(
+          /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/,
+          "Số điện thoại không hợp lệ"
+        )
+        .required("Số điện thoại không được để trống"),
       password: Yup.string().required("Mật khẩu không được để trống"),
     }),
     onSubmit: async (values, { resetForm }) => {
-      const userLogin = {
-        username: values.username,
-        password: values.password,
-      };
-      setIsLoading(true);
-      const response = await dispatch(login(userLogin));
-      if (response?.payload?.result?.data?.user) {
-        Cookies.set(
-          "user",
-          JSON.stringify(response?.payload?.result?.data?.user),
-          {
+      try {
+        const userLogin = {
+          phone: values.phone.trim(),
+          password: values.password.trim(),
+        };
+        setIsLoading(true);
+        const response = await dispatch(login(userLogin));
+        if (response?.payload?.result?.status === 200) {
+          Cookies.set(
+            "user",
+            JSON.stringify(response?.payload?.result?.data?.user),
+            {
+              expires: 8 / 24,
+            }
+          );
+          Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
             expires: 8 / 24,
-          }
-        );
-        Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
-          expires: 8 / 24,
-        });
-        message.success("Hello!");
-        navigate("/");
+          });
+          message.success("Hello!");
+          navigate("/");
+          resetForm();
+          setIsLoading(false);
+        } else {
+          message.errer("Đăng nhập thất bại, kiểm tra lại thông tin đăng nhập");
+          resetForm();
+          setIsLoading(false);
+        }
+      } catch (error) {
+        message.error("Đăng nhập thất bại, kiểm tra lại thông tin đăng nhập");
         resetForm();
         setIsLoading(false);
       }
@@ -66,6 +82,9 @@ const Login = () => {
   });
   return (
     <>
+      <Helmet>
+        <title>Đăng nhập - Instagram</title>
+      </Helmet>
       {isLoading && (
         <>
           <div className="fixed z-50 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
@@ -87,15 +106,15 @@ const Login = () => {
                 <div className="mb-[6px]">
                   <input
                     type="text"
-                    name="username"
-                    value={formik.values.username}
+                    name="phone"
+                    value={formik.values.phone}
                     onChange={formik.handleChange}
                     className="text-[13px] mt-6 border border-gray-200 w-full h-[38px] px-2"
-                    placeholder="Phone number, username, or email"
+                    placeholder="Số điện thoại"
                   />
-                  {formik.touched.username && formik.errors.username ? (
+                  {formik.touched.phone && formik.errors.phone ? (
                     <div className="text-red-500 text-sm">
-                      {formik.errors.username}
+                      {formik.errors.phone}
                     </div>
                   ) : null}
                 </div>
@@ -116,6 +135,7 @@ const Login = () => {
                 <div className="my-3">
                   <Button
                     htmlType="submit"
+                    disabled={isLoading}
                     className="w-full flex justify-center items-center py-1 text-white text-[16px] font-medium bg-blue-400 rounded-lg"
                   >
                     Đăng nhập

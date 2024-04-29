@@ -4,10 +4,10 @@ const RoomService = require("../../services/roomchat/room.service");
 module.exports.createRoom = async (req, res) => {
   try {
     const result = await RoomService.createRoomService(req.body);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -16,10 +16,10 @@ module.exports.createRoomSingle = async (req, res) => {
   try {
     const id = req.params.id;
     const result = await RoomService.createRoomSingleService(req.body, id);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -28,10 +28,10 @@ module.exports.getAllRoom = async (req, res) => {
   try {
     const id = req.params.id;
     const result = await RoomService.getAllRoomService(id);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -40,10 +40,10 @@ module.exports.getRoom = async (req, res) => {
   try {
     const { userId, roomId } = req.params;
     const result = await RoomService.getRoomService(userId, roomId);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -51,10 +51,10 @@ module.exports.getRoom = async (req, res) => {
 module.exports.deleteRoom = async (req, res) => {
   try {
     const result = await RoomService.deleteRoomService(req.body);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -62,10 +62,10 @@ module.exports.deleteRoom = async (req, res) => {
 module.exports.updateRoomName = async (req, res) => {
   try {
     const result = await RoomService.updateRoomNameService(req.body);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -73,10 +73,10 @@ module.exports.updateRoomName = async (req, res) => {
 module.exports.addUserToRoom = async (req, res) => {
   try {
     const result = await RoomService.addToRoom(req);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -84,10 +84,10 @@ module.exports.addUserToRoom = async (req, res) => {
 module.exports.removeUserFromRoom = async (req, res) => {
   try {
     const result = await RoomService.removeFromRoom(req);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };
 
@@ -95,9 +95,9 @@ module.exports.removeUserFromRoom = async (req, res) => {
 module.exports.leaveRoom = async (req, res) => {
   try {
     const result = await RoomService.leaveRoomService(req);
-    res.status(result.status).json(result);
+    return res.status(result.status).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json("Lỗi server");
+    return res.status(500).json("Lỗi server");
   }
 };

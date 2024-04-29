@@ -5,24 +5,25 @@ const { RefreshToken } = require("../../models/RefreshToken");
 
 module.exports.register = async (user) => {
   const salt = await bcrypt.genSalt(10);
-  const hashed = await bcrypt.hash(user.password, salt);
+  const hashed = await bcrypt.hash(user.password.trim(), salt);
   // tạo mới user
   const newAccount = await new Account({
-    username: user.username,
+    phone: user.phone.trim(),
     password: hashed,
   });
   // lưu vào db
-  const account = await newAccount.save();
+  const result = await newAccount.save();
   return {
     status: 201,
     message: "Đăng ký thành công",
+    result: result,
   };
 };
 
 module.exports.login = async (req) => {
-  const { username, password } = req;
-  // Tìm tài khoản trong cơ sở dữ liệu dựa trên username
-  const findUser = await Account.findOne({ username });
+  const { phone, password } = req;
+  // Tìm tài khoản trong cơ sở dữ liệu dựa trên phone
+  const findUser = await Account.findOne({ phone: phone.trim() });
   // Kiểm tra xem tài khoản có tồn tại không
   if (!findUser) {
     return {
@@ -31,11 +32,14 @@ module.exports.login = async (req) => {
     };
   }
   // Kiểm tra mật khẩu
-  const isPasswordValid = await bcrypt.compare(password, findUser.password);
+  const isPasswordValid = await bcrypt.compare(
+    password.trim(), // loại bỏ dấu cách thừa ở đầu cuối
+    findUser.password
+  );
   if (!isPasswordValid) {
     return {
       status: 401,
-      message: "Mật khẩu không đúng",
+      message: "Lỗi đăng nhập",
     };
   }
   return {
@@ -61,7 +65,7 @@ module.exports.generateAccessToken = (user) => {
   return jwt.sign(
     {
       id: user._id,
-      username: user.username,
+      phone: user.phone,
     },
     process.env.JWT_ACCESS_KEY,
     { expiresIn: "2h" }

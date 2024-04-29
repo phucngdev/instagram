@@ -7,7 +7,7 @@ const routerAuth = require("express").Router();
 routerAuth.post(
   "/register",
   authValidation.checkIsBody,
-  authMiddleware.checkUsername,
+  authMiddleware.checkphone,
   authController.registerUser
 );
 

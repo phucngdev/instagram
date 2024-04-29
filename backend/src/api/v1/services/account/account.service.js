@@ -1,7 +1,7 @@
 const { Account } = require("../../models/Account.model");
 
-module.exports.profile = async (username) => {
-  const result = await Account.findOne({ username }).populate({
+module.exports.profile = async (phone) => {
+  const result = await Account.findOne({ phone }).populate({
     path: "roomchat",
     select: "_id roomname", // Chỉ hiển thị _id và roomname của mỗi phòng
   });
@@ -11,19 +11,24 @@ module.exports.profile = async (username) => {
   };
 };
 
-module.exports.getInbox = async (username) => {
-  const user = await Account.findOne({ username }).populate({
-    path: "inbox.contentInbox",
-    populate: {
-      path: "sender",
-      select: "username avatar",
-    },
+// tìm kiếm user
+module.exports.searchService = async (searchString) => {
+  // "i" để không phân biệt chữ hoa chữ thường
+  const regex = await new RegExp(searchString, "i");
+  // Tìm người dùng theo điều kiện phone hoặc username
+  const users = await Account.find({
+    $or: [{ phone: regex }, { username: regex }],
   });
-  if (!user) {
-    return;
-    // return res.status(404).json({ message: "User not found" });
+
+  if (users.length > 0) {
+    return {
+      status: 200,
+      users: users,
+    };
+  } else {
+    return {
+      status: 404,
+      message: "Search not found",
+    };
   }
-  return {
-    inbox: user.inbox,
-  };
 };

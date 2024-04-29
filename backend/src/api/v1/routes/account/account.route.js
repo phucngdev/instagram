@@ -6,8 +6,11 @@ routerAccount.get(
   accountMiddle.checkUser,
   accountController.getDataUser
 );
-// cbi loại bỏ
-// routerAccount.get("/inbox/:id", accountController.getInboxUser);
-// routerAccount.post("/inbox", accountController.sendInboxUser);
+
+routerAccount.get(
+  "/search/search",
+  accountMiddle.checkQuery,
+  accountController.searchByQuery
+);
 
 module.exports = routerAccount;

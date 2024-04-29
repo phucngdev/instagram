@@ -17,11 +17,12 @@ import {
   SearchOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Modal, Spin } from "antd";
+import { Button, Modal, Spin } from "antd";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/user/auth.service";
 import "../../assets/user/LayoutSidebar.css";
 import Cookies from "js-cookie";
+import DrawerSearch from "../../components/user/search/Drawer";
 // import ModalCreate from "./createpost/ModalCreate";
 
 const Sidebar = () => {
@@ -30,7 +31,17 @@ const Sidebar = () => {
   const [openMore, setOpenMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
+  const [open, setOpen] = useState(false); // search
 
+  // search
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  // đăng xuất
   const handleLogout = () => {
     setIsLoading(true);
     setOpenMore(false);
@@ -53,6 +64,7 @@ const Sidebar = () => {
           </div>
         </>
       )}
+      <DrawerSearch onClose={onClose} open={open} />
       <div className="fixed bg-black left-0 top-0 flex flex-col justify-between w-[245px] h-full overflow-hidden px-2 border-e border-gray-800">
         <div className="flex flex-col">
           <Link
@@ -68,13 +80,13 @@ const Sidebar = () => {
             <AppstoreOutlined />
             Home
           </Link>
-          <Link
-            to="/search"
+          <button
+            onClick={showDrawer}
             className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
           >
             <SearchOutlined />
             Search
-          </Link>
+          </button>
           <Link
             to="/explore"
             className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"

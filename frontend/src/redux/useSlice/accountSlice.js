@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDataUser } from "../../services/user/account.service";
+import {
+  getDataByQuery,
+  getDataUser,
+} from "../../services/user/account.service";
 
 const accountSlice = createSlice({
   name: "account",
@@ -19,6 +22,17 @@ const accountSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getDataUser.rejected, (state, action) => {
+        state.status = "Failed!";
+        state.error = action.error.message;
+      })
+      .addCase(getDataByQuery.pending, (state) => {
+        state.status = "Pending!";
+      })
+      .addCase(getDataByQuery.fulfilled, (state, action) => {
+        state.status = "Successfully!";
+        state.data = action.payload;
+      })
+      .addCase(getDataByQuery.rejected, (state, action) => {
         state.status = "Failed!";
         state.error = action.error.message;
       });
