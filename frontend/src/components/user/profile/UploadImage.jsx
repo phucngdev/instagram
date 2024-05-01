@@ -1,7 +1,7 @@
 import React from "react";
 import { message, Upload } from "antd";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../firebase/config";
+import { storage } from "../../../firebase/config";
 
 export default function UploadImage({ setImageUpload }) {
   const listImageRef = ref(storage, "products/");

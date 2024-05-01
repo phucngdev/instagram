@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDataByQuery } from "../../services/user/search.service";
+import { createPost } from "../../services/user/post.service";
 
-const searchSlice = createSlice({
-  name: "search",
+const postSlice = createSlice({
+  name: "post",
   initialState: {
     data: [],
     status: "idle",
@@ -10,18 +10,18 @@ const searchSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getDataByQuery.pending, (state) => {
+      .addCase(createPost.pending, (state) => {
         state.status = "Pending!";
       })
-      .addCase(getDataByQuery.fulfilled, (state, action) => {
+      .addCase(createPost.fulfilled, (state, action) => {
         state.status = "Successfully!";
         state.data = action.payload;
       })
-      .addCase(getDataByQuery.rejected, (state, action) => {
+      .addCase(createPost.rejected, (state, action) => {
         state.status = "Failed!";
         state.error = action.error.message;
       });
   },
 });
 
-export default searchSlice.reducer;
+export default postSlice.reducer;

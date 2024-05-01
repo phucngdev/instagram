@@ -2,9 +2,19 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Account",
+      required: true,
+    },
+    image: {
+      type: String,
+    },
     content: {
       type: String,
-      required: true,
+    },
+    status: {
+      type: String,
     },
     likes: [
       {

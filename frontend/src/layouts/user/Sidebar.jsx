@@ -23,6 +23,7 @@ import { logout } from "../../services/user/auth.service";
 import "../../assets/user/LayoutSidebar.css";
 import Cookies from "js-cookie";
 import DrawerSearch from "../../components/user/search/Drawer";
+import ModalCreate from "../../components/user/post/ModalCreate";
 // import ModalCreate from "./createpost/ModalCreate";
 
 const Sidebar = () => {
@@ -65,6 +66,7 @@ const Sidebar = () => {
         </>
       )}
       <DrawerSearch onClose={onClose} open={open} />
+      <ModalCreate openCreate={openCreate} setOpenCreate={setOpenCreate} />
       <div className="fixed bg-black left-0 top-0 flex flex-col justify-between w-[245px] h-full overflow-hidden px-2 border-e border-gray-800">
         <div className="flex flex-col">
           <Link
@@ -122,10 +124,6 @@ const Sidebar = () => {
             <PlusOutlined />
             Create
           </button>
-          {/* <ModalCreate
-            openCreate={openCreate}
-            setOpenCreate={setOpenCreate}
-          ></ModalCreate> */}
           <Link
             to="/profile"
             className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"

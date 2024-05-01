@@ -12,7 +12,6 @@ const DrawerSearch = ({ onClose, open }) => {
   const [query, setQuery] = useState("");
   // const [dataSearch, setDataSearch] = useState([]);
   const dataSearch = useSelector((state) => state.account.data);
-  console.log(dataSearch);
 
   useEffect(() => {
     const debouncedSearchByQuery = _debounce(async () => {
@@ -56,7 +55,7 @@ const DrawerSearch = ({ onClose, open }) => {
             placeholder="Search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="text-black bg-slate-200 hover:bg-white focus-within:bg-white placeholder-black"
+            className="text-white bg-black  hover:bg-black focus-within:bg-black placeholder-white"
             allowClear
           />
           <button type="submit" hidden></button>

@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../services/user/auth.service";
 import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
+import { setUser } from "../../redux/useSlice/userLoginSlice";
 
 export const bottomLogin = [
   "Meta",
@@ -64,6 +65,7 @@ const Login = () => {
           Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
             expires: 8 / 24,
           });
+          await dispatch(setUser(response?.payload?.result?.data?.user));
           message.success("Hello!");
           navigate("/");
           resetForm();
@@ -92,7 +94,7 @@ const Login = () => {
           </div>
         </>
       )}
-      <div className="flex flex-col items-center justify-center mt-8">
+      <div className="h-[100vh] flex flex-col items-center justify-center bg-white">
         <div className="flex items-center gap-8">
           <div className="w-[380px] h-[580px]">
             <img className="w-full h-full object-cover" src={phone} alt="" />

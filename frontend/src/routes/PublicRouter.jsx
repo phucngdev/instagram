@@ -17,7 +17,7 @@ const PublicRouter = () => {
       {isLogin ? (
         <>
           <Sidebar />
-          <div className="ms-[245px] h-[100vh] bg-black">
+          <div className="ms-[245px] bg-black">
             <Outlet />
           </div>
         </>

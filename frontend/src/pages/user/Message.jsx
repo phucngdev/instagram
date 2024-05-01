@@ -3,12 +3,11 @@ import ListChat from "../../components/user/message/ListChat";
 import NotMessage from "../../layouts/user/NotMessage";
 import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 
 const Message = () => {
-  const [userLogin, setUserLogin] = useState(() => {
-    const tokenObject = JSON.parse(Cookies.get("user"));
-    return tokenObject;
-  });
+  const userLogin = useSelector((state) => state.userLogin.data);
+
   return (
     <>
       <Helmet>

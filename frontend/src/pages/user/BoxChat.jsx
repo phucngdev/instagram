@@ -33,10 +33,8 @@ const BoxChat = () => {
   const socketRef = useRef();
   const messagesEnd = useRef();
   const roomChat = useSelector((state) => state.room.data);
-  const [userLogin, setUserLogin] = useState(() => {
-    const tokenObject = JSON.parse(Cookies.get("user"));
-    return tokenObject;
-  });
+  const userLogin = useSelector((state) => state.userLogin.data);
+
   const [content, setContent] = useState("");
   const [userChat, setUserChat] = useState({});
   const [messages, setMessages] = useState([]);

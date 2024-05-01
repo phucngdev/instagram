@@ -5,14 +5,17 @@ const messageSchema = new mongoose.Schema(
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Account",
+      required: true,
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Account",
+      required: true,
     },
     roomchatId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "RoomChat",
+      required: true,
     },
     content: {
       type: String,

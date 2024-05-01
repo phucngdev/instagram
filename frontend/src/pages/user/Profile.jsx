@@ -11,19 +11,19 @@ import { Avatar, Button, Image, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataUser } from "../../services/user/account.service";
 import Cookies from "js-cookie";
-import UploadImage from "../../utils/UploadImage";
 import { createRoomSingle } from "../../services/user/room.service";
+import UploadImage from "../../components/user/profile/UploadImage";
+import Follow from "../../components/user/pro/Follow";
+import HighLight from "../../components/user/pro/HighLight";
+import PostList from "../../components/user/pro/PostList";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dataUser = useSelector((state) => state.account.data);
-  const { id } = useParams();
+  const userLogin = useSelector((state) => state.userLogin.data);
 
-  const [userLogin, setUserLogin] = useState(() => {
-    const tokenObject = JSON.parse(Cookies.get("user"));
-    return tokenObject;
-  });
+  const { id } = useParams();
 
   const [openPhoto, setOpenPhoto] = useState(false);
   const [imageUpload, setImageUpload] = useState("");
@@ -122,7 +122,7 @@ const Profile = () => {
               <h3 className="text-[20px] text-white font-normal">
                 {dataUser?.result?.username || dataUser?.result?.phone}
               </h3>
-              {userLogin?.phone === dataUser?.result?.phone ? (
+              {userLogin?._id === dataUser?.result?._id ? (
                 <div className="flex flex-1 items-center gap-3">
                   <Button
                     type="default"
@@ -159,11 +159,13 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            {/* <Follower user={user}></Follower> */}
+            <Follow user={dataUser} />
             <span className="text-white mt-3">{dataUser?.result?.name}</span>
           </div>
         </header>
+        <HighLight />
       </div>
+      <PostList post={dataUser?.result?.posts} />
     </>
   );
 };

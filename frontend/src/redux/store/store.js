@@ -3,7 +3,8 @@ import authSlice from "../useSlice/authSlice";
 import accountSlice from "../useSlice/accountSlice";
 import roomSlice from "../useSlice/roomSlice";
 import messageSlice from "../useSlice/messageSlice";
-// import searchSlice from "../useSlice/searchSlice";
+import postSlice from "../useSlice/postSlice";
+import userLoginSlice from "../useSlice/userLoginSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     account: accountSlice,
     room: roomSlice,
     message: messageSlice,
-    // search: searchSlice,
+    post: postSlice,
+    userLogin: userLoginSlice,
   },
 });
 export default store;

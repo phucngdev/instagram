@@ -4,10 +4,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const routerAuth = require("./api/v1/routes/auth/auth.route");
-const routerAccount = require("./api/v1/routes/account/account.route");
-const routerMessage = require("./api/v1/routes/message/message.route");
-const routerRoomChat = require("./api/v1/routes/roomchat/room.route");
+const routerAuth = require("./api/v1/routes/auth/auth.routes");
+const routerAccount = require("./api/v1/routes/account/account.routes");
+const routerMessage = require("./api/v1/routes/message/message.routes");
+const routerRoomChat = require("./api/v1/routes/roomchat/room.routes");
+const routerPost = require("./api/v1/routes/posts/post.routes");
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
@@ -26,5 +27,7 @@ app.use("/api/v1/inbox", routerMessage);
 app.use("/api/v1/roomchat", routerRoomChat);
 // tài khoản
 app.use("/api/v1/accounts", routerAccount);
+// bài viết
+app.use("/api/v1/post", routerPost);
 
 module.exports = app;

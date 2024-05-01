@@ -1,0 +1,22 @@
+.ant-modal,
+.ant-modal-content {
+  border-radius: 20px !important;
+  border: 1px solid #fff;
+}
+.ant-input-affix-wrapper .ant-input {
+  color: #fff !important;
+}
+.ant-input-affix-wrapper .ant-input::placeholder {
+  color: #fff !important;
+}
+.ant-input-data-count {
+  color: #fff !important;
+}
+.ant-select-selector {
+  text-align: center;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.ant-select-selection-item {
+  padding-right: 0 !important;
+}
