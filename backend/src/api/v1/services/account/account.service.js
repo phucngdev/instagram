@@ -1,9 +1,9 @@
 const { Account } = require("../../models/Account.model");
 
-module.exports.profile = async (phone) => {
-  const result = await Account.findOne({ phone }).populate({
-    path: "roomchat",
-    select: "_id roomname", // Chỉ hiển thị _id và roomname của mỗi phòng
+module.exports.profile = async (username) => {
+  const result = await Account.findOne({ username }).populate({
+    path: "posts",
+    select: "_id image status content",
   });
   return {
     status: 200,

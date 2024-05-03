@@ -3,7 +3,7 @@ const app = require("./app");
 const server = http.createServer(app);
 require("dotenv").config();
 const connectDB = require("./config/connect");
-
+const socketService = require("./api/v1/services/socket/socket.service");
 // kết nối db mongodb
 connectDB();
 
@@ -13,20 +13,9 @@ const socketIo = require("socket.io")(server, {
     origin: "*",
   },
 });
+global._io = socketIo;
 
-socketIo.on("connection", (socket) => {
-  socket.on("sendDataClient", function (data) {
-    socketIo.emit("sendDataServer", { data });
-  });
-  socket.on("newNotification", (data) => {
-    // Sau đó gửi tin nhắn đến tất cả các người dùng kết nối
-    socketIo.emit("notification", { data });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});
+global._io.on("connection", socketService.socketConnect());
 
 const PORT = 8080;
 server.listen(PORT, () => {

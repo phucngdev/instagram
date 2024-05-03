@@ -38,7 +38,7 @@ const ListChat = ({ userLogin }) => {
           listRoom.listroom?.roomchat.map((ib) => (
             <div
               key={ib._id}
-              className="flex items-center px-6 py-2 cursor-pointer hover:bg-stone-800"
+              className="flex items-center px-6 py-2 cursor-pointer hover:bg-[#363636]"
               onClick={() => navigate(`/message/${ib?._id}/${userLogin?._id}`)}
             >
               <Avatar.Group
@@ -50,9 +50,10 @@ const ListChat = ({ userLogin }) => {
                 }}
               >
                 {ib?.member?.map(
-                  (mb) =>
+                  (mb, index) =>
                     mb?._id !== userLogin?._id && (
                       <Avatar
+                        key={index}
                         src={mb.avatar}
                         className="w-[56px] h-[56px] rounded-full object-cove"
                         alt=""

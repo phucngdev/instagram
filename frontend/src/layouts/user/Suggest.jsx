@@ -29,13 +29,13 @@ const Suggest = () => {
             )}
             <div className="flex flex-col">
               <Link
-                to={`/${userLogin.phone}`}
+                to={`/${userLogin.username}`}
                 className="text-[#f5f5f5] text-sm font-bold"
               >
-                {userLogin.username || userLogin.phone}
+                {userLogin.username}
               </Link>
               <span className="text-[#a8a8a8] font-light text-sm">
-                {userLogin?.fullname}
+                {userLogin?.name}
               </span>
             </div>
           </div>

@@ -4,15 +4,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Follow = ({ user }) => {
-  console.log(user);
   const [openFollower, setOpenFollower] = useState(false);
   const [openFollowing, setOpenFollowing] = useState(false);
+
   return (
     <>
       <div className="flex text-[16px] items-center gap-10 text-white mt-5">
-        <h3>{user?.result?.posts?.length || 0} posts</h3>
+        <h3>{user?.posts?.length || 0} posts</h3>
         <h3 className="cursor-pointer" onClick={() => setOpenFollower(true)}>
-          {user?.result?.followers?.length || 0} followers
+          {user?.followers?.length || 0} followers
         </h3>
         <Modal
           title={
@@ -28,8 +28,8 @@ const Follow = ({ user }) => {
           closeIcon={<CloseOutlined className="text-white" />}
         >
           <div className="flex flex-col gap-3 pt-3 border-t border-gray-500">
-            {user?.result?.followers?.length > 0 &&
-              user?.result?.followers?.map((item, index) => (
+            {user?.followers?.length > 0 &&
+              user?.followers?.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-[42px] h-[42px] cursor-pointer flex items-center justify-center rounded-full bg-gradient-to-br from-[#d301c5] to-[#ffc703]">
@@ -63,7 +63,7 @@ const Follow = ({ user }) => {
           </div>
         </Modal>
         <h3 className="cursor-pointer" onClick={() => setOpenFollowing(true)}>
-          {user?.result?.following?.length || 0} following
+          {user?.following?.length || 0} following
         </h3>
         <Modal
           title={
@@ -79,8 +79,8 @@ const Follow = ({ user }) => {
           closeIcon={<CloseOutlined className="text-white" />}
         >
           <div className="flex flex-col gap-3 pt-3 border-t border-gray-500">
-            {user?.result?.following?.length > 0 &&
-              user?.result?.following?.map((item, index) => (
+            {user?.following?.length > 0 &&
+              user?.following?.map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-[42px] h-[42px] cursor-pointer flex items-center justify-center rounded-full bg-gradient-to-br from-[#d301c5] to-[#ffc703]">

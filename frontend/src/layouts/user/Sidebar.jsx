@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../../public/logo_text.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BellOutlined,
@@ -69,83 +69,83 @@ const Sidebar = () => {
       <ModalCreate openCreate={openCreate} setOpenCreate={setOpenCreate} />
       <div className="fixed bg-black left-0 top-0 flex flex-col justify-between w-[245px] h-full overflow-hidden px-2 border-e border-gray-800">
         <div className="flex flex-col">
-          <Link
+          <NavLink
             to="/"
             className="w-[175px] h-[51px] relative overflow-hidden mt-9 mb-3 mx-auto"
           >
             <img className="absolute top-[-50px] left-0" src={logo} alt="" />
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/"
-            className="w-full h-[52px] mt-6 text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] mt-6 text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <AppstoreOutlined />
             Home
-          </Link>
+          </NavLink>
           <button
             onClick={showDrawer}
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <SearchOutlined />
             Search
           </button>
-          <Link
+          <NavLink
             to="/explore"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <CompassOutlined />
             Explore
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/reels"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <PlaySquareOutlined />
             Reels
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/message"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <MessageOutlined />
             Messages
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/notification"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <BellOutlined />
             Notification
-          </Link>
+          </NavLink>
           <button
             onClick={() => setOpenCreate(true)}
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <PlusOutlined />
             Create
           </button>
-          <Link
+          <NavLink
             to="/profile"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <IdcardOutlined />
             Profile
-          </Link>
+          </NavLink>
         </div>
         <div className="flex flex-col mb-10">
-          <button className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800">
+          <button className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]">
             <PinterestOutlined />
             Threads
           </button>
           <button
             onClick={() => setOpenMore(true)}
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-stone-800"
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
           >
             <MenuOutlined />
             More
           </button>
           <Modal
-            className="fixed left-[20px] top-[50%] p-0 m-0 shadow-md rounded-lg shadow-stone-600"
+            className="fixed left-[20px] top-[50%] p-0 m-0 shadow-md rounded-lg shadow-[#363636] text-white"
             open={openMore}
             onOk={() => setOpenMore(false)}
             onCancel={() => setOpenMore(false)}
@@ -154,30 +154,31 @@ const Sidebar = () => {
             closeIcon={false}
           >
             <div className="flex flex-col gap-3 bg-black p-0">
-              <Link
+              <NavLink
                 to="/setting"
-                className="w-full h-[52px] text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-slate-600"
+                className="w-full h-[52px] hover:text-white text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
               >
                 <SettingOutlined />
                 Settings
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/save"
-                className="w-full h-[52px] text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-slate-600"
+                className="w-full h-[52px] hover:text-white text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
               >
                 <BookOutlined />
                 Save
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/save"
-                className="w-full h-[52px] text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-slate-600"
+                className="w-full h-[52px] hover:text-white text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
               >
                 <MoonOutlined />
                 Switch appearance
-              </Link>
+              </NavLink>
+              <div className="w-full h-[1px] bg-white"></div>
               <button
                 onClick={handleLogout}
-                className="w-full h-[52px] border-t border-gray-500  text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-slate-600"
+                className="w-full h-[52px]   text-white flex items-center px-2 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
               >
                 <LoginOutlined />
                 Log out

@@ -9,6 +9,8 @@ import Profile from "./pages/user/Profile";
 import Home from "./pages/user/Home";
 import Message from "./pages/user/Message";
 import BoxChat from "./pages/user/BoxChat";
+import EditProfile from "./pages/user/EditProfile";
+import AccountService from "./routes/user/AccountService";
 
 function App() {
   const location = useLocation();
@@ -46,6 +48,9 @@ function App() {
           <Route path=":id" element={<Profile />} />
           <Route path="message" element={<Message />} />
           <Route path="message/:roomId/:userId" element={<BoxChat />} />
+          <Route path="account/edit" element={<AccountService />}>
+            <Route index element={<EditProfile />} />
+          </Route>
         </Route>
         <Route path="/accounts/login" element={<Login />} />
         <Route path="/accounts/register" element={<Register />} />

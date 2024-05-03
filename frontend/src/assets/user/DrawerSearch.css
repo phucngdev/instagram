@@ -1,3 +1,6 @@
 .ant-drawer-content {
   background-color: #000 !important;
 }
+.form-search-custom input::placeholder {
+  color: #a8a8a8 !important;
+}

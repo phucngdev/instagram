@@ -9,6 +9,7 @@ module.exports.register = async (user) => {
   // tạo mới user
   const newAccount = await new Account({
     phone: user.phone.trim(),
+    username: user.phone.trim(),
     password: hashed,
   });
   // lưu vào db

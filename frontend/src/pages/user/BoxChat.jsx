@@ -60,6 +60,10 @@ const BoxChat = () => {
     }
   }, [roomId, roomChat]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const scrollToBottom = () => {
     messagesEnd.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -129,10 +133,10 @@ const BoxChat = () => {
         <ListChat userLogin={userLogin} />
         {roomChat && (
           <div className="w-[calc(100vw-350px-245px)] flex flex-col h-[100vh]">
-            <header className="flex items-center justify-between px-3 pt-4 pb-3 bg-black border-b border-gray-800">
+            <header className="flex items-center justify-between px-3 pt-4 pb-3 bg-black border-b border-gray-800 ">
               <div
                 className="flex items-center cursor-pointer"
-                onClick={() => navigate(`/${userChat?.username}`)}
+                onClick={() => navigate(`/${userChat?.phone}`)}
               >
                 <img
                   src={userChat?.avatar}
@@ -141,7 +145,7 @@ const BoxChat = () => {
                 />
                 <div className="flex flex-col">
                   <span className="text-white font-normal">
-                    {userChat?.username}
+                    {userChat?.username || userChat?.phone}
                   </span>
                   <span className="text-gray-400 text-sm">active 17h ago</span>
                 </div>
@@ -296,7 +300,10 @@ const BoxChat = () => {
                   );
                 })}
                 {sendding && (
-                  <div className="group flex justify-end items-center gap-2">
+                  <div
+                    className="group flex justify-end items-center gap-2"
+                    ref={messagesEnd}
+                  >
                     <div className="group-hover:flex hidden items-center gap-2 text-white text-base cursor-pointer">
                       <Popconfirm
                         placement="topRight"
@@ -362,7 +369,6 @@ const BoxChat = () => {
                 onSubmit={handleSend}
                 className="flex items-center justify-between p-3"
               >
-                <div ref={messagesEnd}></div>
                 <Input
                   className="bg-black text-white py-2 rounded-full hover:bg-black focus-within:bg-black placeholder-white"
                   placeholder="Message..."

@@ -50,12 +50,12 @@ const DrawerSearch = ({ onClose, open }) => {
         onClose={onClose}
         open={open}
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-search-custom">
           <Input
             placeholder="Search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="text-white bg-black  hover:bg-black focus-within:bg-black placeholder-white"
+            className="text-white bg-black  hover:bg-black focus-within:bg-black placeholder:text-white"
             allowClear
           />
           <button type="submit" hidden></button>
@@ -67,6 +67,7 @@ const DrawerSearch = ({ onClose, open }) => {
               <div className="flex flex-col mt-10">
                 {dataSearch.users?.map((user) => (
                   <div
+                    key={user?._id}
                     onClick={() => handleClickToProfile(user?.phone)}
                     className="flex items-center gap-4 cursor-pointer hover:bg-stone-800 rounded-md p-2"
                   >

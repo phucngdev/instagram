@@ -24,3 +24,7 @@ body {
 .ant-popconfirm-buttons {
   display: none !important;
 }
+
+.active {
+  background-color: #262626;
+}

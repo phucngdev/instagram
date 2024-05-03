@@ -74,7 +74,7 @@ const Register = () => {
           </div>
         </>
       )}
-      <div className="flex flex-col items-center justify-center mt-8">
+      <div className="h-[100vh] bg-white flex flex-col items-center justify-center mt-8">
         <div className="flex items-center gap-8">
           <div className="w-[380px] h-[580px]">
             <img className="w-full h-full object-cover" src={phone} alt="" />
@@ -105,7 +105,7 @@ const Register = () => {
                     name="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
-                    className="text-[13px] border border-gray-200 w-full h-[38px] px-2"
+                    className="text-[13px] border border-gray-200 w-full h-[38px] px-2 "
                     placeholder="Mật khẩu"
                   />
                   {formik.touched.password && formik.errors.password ? (

@@ -3,20 +3,20 @@
   border-radius: 20px !important;
   border: 1px solid #fff;
 }
-.ant-input-affix-wrapper .ant-input {
+.modal-create-post-custom textarea::placeholder {
+  color: #a8a8a8 !important;
+}
+.modal-create-post-custom textarea {
   color: #fff !important;
 }
-.ant-input-affix-wrapper .ant-input::placeholder {
+.modal-create-post-custom .ant-input-data-count {
   color: #fff !important;
 }
-.ant-input-data-count {
-  color: #fff !important;
-}
-.ant-select-selector {
+.modal-create-post-custom .ant-select-selector {
   text-align: center;
   background-color: #000 !important;
   color: #fff !important;
 }
-.ant-select-selection-item {
+.modal-create-post-custom .ant-select-selection-item {
   padding-right: 0 !important;
 }
