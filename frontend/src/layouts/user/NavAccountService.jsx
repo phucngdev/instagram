@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 const NavAccountService = () => {
   return (
     <>
-      <nav className="flex flex-col w-[280px] h-full px-4 border-e border-gray-800 overflow-y-scroll">
+      <nav className="flex flex-col w-[280px] h-full px-4 border-e border-[#282828] overflow-y-scroll">
         <h3 className="text-white text-xl font-medium ms-3 mt-10">Settings</h3>
         <div className="hover:bg-[#363636] cursor-pointer p-4 my-3 bg-[#262626] rounded-md text-white">
           <div className="flex items-center gap-2">

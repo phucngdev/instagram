@@ -14,7 +14,7 @@ import { createPost } from "../../../services/user/post.service";
 
 const { TextArea } = Input;
 const ModalCreate = ({ openCreate, setOpenCreate }) => {
-  const user = useSelector((state) => state.userLogin.data);
+  const user = useSelector((state) => state.auth.data);
   const dispatch = useDispatch();
   const [urlPhotoNew, setUrlPhotoNew] = useState("");
   const [caption, setCaption] = useState("");
@@ -114,9 +114,7 @@ const ModalCreate = ({ openCreate, setOpenCreate }) => {
                 src={user?.avatar}
                 alt=""
               />
-              <span className="text-white font-semibold">
-                {user.username || user.phone}
-              </span>
+              <span className="text-white font-semibold">{user?.username}</span>
             </div>
             <TextArea
               showCount

@@ -163,7 +163,7 @@ const Register = () => {
           {bottomLogin.map((item, index) => (
             <Link
               key={index}
-              className="text-sm text-gray-600 hover:border-b hover:border-gray-800"
+              className="text-sm text-gray-600 hover:border-b hover:border-[#282828]"
             >
               {item}
             </Link>

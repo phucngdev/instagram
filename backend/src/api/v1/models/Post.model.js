@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
-    userId: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Account",
       required: true,
@@ -51,6 +51,18 @@ const postSchema = new mongoose.Schema(
           ref: "Account",
         },
         created_at: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    viewers: [
+      {
+        account: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Account",
+        },
+        viewed_at: {
           type: Date,
           default: Date.now,
         },

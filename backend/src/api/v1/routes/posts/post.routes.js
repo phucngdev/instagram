@@ -9,4 +9,7 @@ routerPost.post(
   postController.createPost
 );
 
+// lấy newfeed
+routerPost.get("/newfeed/:id", postController.newFeed);
+
 module.exports = routerPost;

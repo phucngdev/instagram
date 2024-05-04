@@ -20,20 +20,19 @@ import socketIOClient from "socket.io-client";
 import { sendInbox } from "../../services/user/message.service";
 import { getOneRoom } from "../../services/user/room.service";
 import ListChat from "../../components/user/message/ListChat";
-import Cookies from "js-cookie";
 import formatTimeCreated from "../../utils/FormatTimeCreated";
 import checkDate from "../../utils/CheckDate";
 import { Helmet } from "react-helmet";
 
 const BoxChat = () => {
   const { roomId, userId } = useParams();
-  const host = "http://localhost:8080";
+  const host = import.meta.env.VITE_HOST_SOCKET;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const socketRef = useRef();
   const messagesEnd = useRef();
   const roomChat = useSelector((state) => state.room.data);
-  const userLogin = useSelector((state) => state.userLogin.data);
+  const userLogin = useSelector((state) => state.auth.data);
 
   const [content, setContent] = useState("");
   const [userChat, setUserChat] = useState({});
@@ -110,6 +109,7 @@ const BoxChat = () => {
     };
     setContentSendding(mesSocket);
     setSendding(true);
+    setContent("");
     const respones = await dispatch(sendInbox(newMessage));
     if (respones?.payload?.status === 201) {
       // gửi tin nhắn qua emit
@@ -120,7 +120,6 @@ const BoxChat = () => {
     } else {
       setErrSend(true);
     }
-    setContent("");
     scrollToBottom();
   };
 
@@ -130,10 +129,10 @@ const BoxChat = () => {
         <title>Message - Chats - Instagram</title>
       </Helmet>
       <div className="flex">
-        <ListChat userLogin={userLogin} />
+        <ListChat />
         {roomChat && (
           <div className="w-[calc(100vw-350px-245px)] flex flex-col h-[100vh]">
-            <header className="flex items-center justify-between px-3 pt-4 pb-3 bg-black border-b border-gray-800 ">
+            <header className="flex items-center justify-between px-3 pt-4 pb-3 bg-black border-b border-[#282828] ">
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => navigate(`/${userChat?.phone}`)}
@@ -225,7 +224,7 @@ const BoxChat = () => {
                                         <CopyOutlined />
                                       </div>
                                       <div className="flex items-center justify-between cursor-pointer text-red-600 p-2 mt-2 hover:text-white hover:bg-red-600 rounded-lg">
-                                        <span>Report</span>
+                                        <span>Delete</span>
                                         <ExclamationCircleOutlined />
                                       </div>
                                     </>
@@ -264,7 +263,7 @@ const BoxChat = () => {
                                         <CopyOutlined />
                                       </div>
                                       <div className="flex items-center justify-between cursor-pointer text-red-600 p-2 mt-2 hover:text-white hover:bg-red-600 rounded-lg">
-                                        <span>Report</span>
+                                        <span>Delete</span>
                                         <ExclamationCircleOutlined />
                                       </div>
                                     </>
@@ -300,10 +299,7 @@ const BoxChat = () => {
                   );
                 })}
                 {sendding && (
-                  <div
-                    className="group flex justify-end items-center gap-2"
-                    ref={messagesEnd}
-                  >
+                  <div className="group flex justify-end items-center gap-2">
                     <div className="group-hover:flex hidden items-center gap-2 text-white text-base cursor-pointer">
                       <Popconfirm
                         placement="topRight"
@@ -325,7 +321,7 @@ const BoxChat = () => {
                               <CopyOutlined />
                             </div>
                             <div className="flex items-center justify-between cursor-pointer text-red-600 p-2 mt-2 hover:text-white hover:bg-red-600 rounded-lg">
-                              <span>Report</span>
+                              <span>Delete</span>
                               <ExclamationCircleOutlined />
                             </div>
                           </>
@@ -364,6 +360,7 @@ const BoxChat = () => {
                     />
                   </div>
                 )}
+                <div ref={messagesEnd}></div>
               </div>
               <form
                 onSubmit={handleSend}

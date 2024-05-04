@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { login } from "../../services/user/auth.service";
+import { getDataUserLogin, login } from "../../services/user/auth.service";
 import Cookies from "js-cookie";
 import { Helmet } from "react-helmet";
 import { setUser } from "../../redux/useSlice/userLoginSlice";
@@ -54,18 +54,19 @@ const Login = () => {
         };
         setIsLoading(true);
         const response = await dispatch(login(userLogin));
-        if (response?.payload?.result?.status === 200) {
+        if (response?.payload?.status === 200) {
+          Cookies.set("isLogin", JSON.stringify(true));
+          Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
+            expires: 8 / 24,
+          });
           Cookies.set(
-            "user",
-            JSON.stringify(response?.payload?.result?.data?.user),
+            "refreshToken",
+            JSON.stringify(response?.payload?.refreshToken),
             {
               expires: 8 / 24,
             }
           );
-          Cookies.set("token", JSON.stringify(response?.payload?.accessToken), {
-            expires: 8 / 24,
-          });
-          await dispatch(setUser(response?.payload?.result?.data?.user));
+          await dispatch(getDataUserLogin());
           message.success("Hello!");
           navigate("/");
           resetForm();
@@ -175,7 +176,7 @@ const Login = () => {
           {bottomLogin.map((item, index) => (
             <Link
               key={index}
-              className="text-sm text-gray-600 hover:border-b hover:border-gray-800"
+              className="text-sm text-gray-600 hover:border-b hover:border-[#282828]"
             >
               {item}
             </Link>

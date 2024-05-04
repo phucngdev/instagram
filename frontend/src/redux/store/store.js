@@ -4,7 +4,7 @@ import accountSlice from "../useSlice/accountSlice";
 import roomSlice from "../useSlice/roomSlice";
 import messageSlice from "../useSlice/messageSlice";
 import postSlice from "../useSlice/postSlice";
-import userLoginSlice from "../useSlice/userLoginSlice";
+import { getDataUserLogin } from "../../services/user/auth.service";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +13,6 @@ const store = configureStore({
     room: roomSlice,
     message: messageSlice,
     post: postSlice,
-    userLogin: userLoginSlice,
   },
 });
 export default store;

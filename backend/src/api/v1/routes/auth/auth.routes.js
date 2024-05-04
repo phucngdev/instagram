@@ -17,4 +17,7 @@ routerAuth.post("/login", authValidation.checkIsBody, authController.loginUser);
 // đăng xuất
 routerAuth.post("/logout", authController.logOutUser);
 
+// lấy data user đăng nhập
+routerAuth.get("/userlogin", authController.getDataUserLogin);
+
 module.exports = routerAuth;

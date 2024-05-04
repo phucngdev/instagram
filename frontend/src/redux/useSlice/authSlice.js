@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register } from "../../services/user/auth.service";
+import {
+  getDataUserLogin,
+  login,
+  logout,
+  register,
+} from "../../services/user/auth.service";
 
 const authSlice = createSlice({
   name: "auth",
@@ -18,6 +23,17 @@ const authSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
+        state.status = "Failed!";
+        state.error = action.error.message;
+      })
+      .addCase(getDataUserLogin.pending, (state) => {
+        state.status = "Pending!";
+      })
+      .addCase(getDataUserLogin.fulfilled, (state, action) => {
+        state.status = "Successfully!";
+        state.data = action.payload?.user;
+      })
+      .addCase(getDataUserLogin.rejected, (state, action) => {
         state.status = "Failed!";
         state.error = action.error.message;
       })

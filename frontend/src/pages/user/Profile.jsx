@@ -22,7 +22,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dataUser = useSelector((state) => state.account.data?.result);
-  const userLogin = useSelector((state) => state.userLogin.data);
+  const userLogin = useSelector((state) => state.auth.data);
   const [user, setUser] = useState(dataUser);
   const [openPhoto, setOpenPhoto] = useState(false);
   const [imageUpload, setImageUpload] = useState("");
@@ -57,6 +57,15 @@ const Profile = () => {
     navigate(`/message/${newRoom?.payload?.room?._id}/${userLogin?._id}`);
   };
 
+  const renderBio = () => {
+    const bioLines = user?.bio.split("\n");
+    return bioLines.map((line, index) => (
+      <React.Fragment key={index}>
+        {line} <br />
+      </React.Fragment>
+    ));
+  };
+
   if (userLogin?._id === user?._id) {
     return (
       <>
@@ -64,7 +73,7 @@ const Profile = () => {
           <title>{userLogin?.username}</title>
         </Helmet>
         <div className="max-w-[935px] mx-auto px-5 pt-5">
-          <header className="h-[150px] w-full mb-[44px] flex items-center">
+          <header className="h-[150px] w-full mb-[44px] flex items-center mt-9">
             <div className="w-[290px] h-full flex items-center justify-center">
               <Image
                 width={150}
@@ -134,7 +143,8 @@ const Profile = () => {
                 </div>
               </div>
               <Follow user={user} />
-              <span className="text-white mt-3">{user?.name}</span>
+              <span className="text-white text-sm mt-3">{user?.name}</span>
+              <span className="text-white text-sm mt-1">{renderBio()}</span>
             </div>
           </header>
           <HighLight />

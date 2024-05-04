@@ -67,7 +67,7 @@ const Sidebar = () => {
       )}
       <DrawerSearch onClose={onClose} open={open} />
       <ModalCreate openCreate={openCreate} setOpenCreate={setOpenCreate} />
-      <div className="fixed bg-black left-0 top-0 flex flex-col justify-between w-[245px] h-full overflow-hidden px-2 border-e border-gray-800">
+      <div className="fixed bg-black left-0 top-0 flex flex-col justify-between w-[245px] h-full overflow-hidden px-2 border-e border-[#282828]">
         <div className="flex flex-col">
           <NavLink
             to="/"

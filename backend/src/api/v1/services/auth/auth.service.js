@@ -3,81 +3,10 @@ const bcrypt = require("bcrypt");
 const { Account } = require("../../models/Account.model");
 const { RefreshToken } = require("../../models/RefreshToken");
 
-module.exports.register = async (user) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashed = await bcrypt.hash(user.password.trim(), salt);
-  // tạo mới user
-  const newAccount = await new Account({
-    phone: user.phone.trim(),
-    username: user.phone.trim(),
-    password: hashed,
-  });
-  // lưu vào db
-  const result = await newAccount.save();
-  return {
-    status: 201,
-    message: "Đăng ký thành công",
-    result: result,
-  };
-};
-
-module.exports.login = async (req) => {
-  const { phone, password } = req;
-  // Tìm tài khoản trong cơ sở dữ liệu dựa trên phone
-  const findUser = await Account.findOne({ phone: phone.trim() });
-  // Kiểm tra xem tài khoản có tồn tại không
-  if (!findUser) {
-    return {
-      status: 401,
-      message: "Tên đăng nhập không tồn tại",
-    };
-  }
-  // Kiểm tra mật khẩu
-  const isPasswordValid = await bcrypt.compare(
-    password.trim(), // loại bỏ dấu cách thừa ở đầu cuối
-    findUser.password
-  );
-  if (!isPasswordValid) {
-    return {
-      status: 401,
-      message: "Lỗi đăng nhập",
-    };
-  }
-  return {
-    status: 200,
-    data: {
-      user: findUser,
-    },
-  };
-};
-
-module.exports.logOut = async (user) => {
-  // Clear cookies khi ng dùng đăng xuất
-  // refreshTokens = refreshTokens.filter((token) => token !== user.token);
-  const { token } = user;
-  await RefreshToken.findOneAndDelete({ token });
-  return {
-    status: 200,
-    message: "Logged out successfully!",
-  };
-};
-
-module.exports.generateAccessToken = (user) => {
+module.exports.generateRefreshToken = (_id) => {
   return jwt.sign(
     {
-      id: user._id,
-      phone: user.phone,
-    },
-    process.env.JWT_ACCESS_KEY,
-    { expiresIn: "2h" }
-  );
-};
-
-module.exports.generateRefreshToken = (user) => {
-  return jwt.sign(
-    {
-      id: user._id,
-      isAdmin: user.isAdmin,
+      id: _id,
     },
     process.env.JWT_REFRESH_KEY,
     { expiresIn: "365d" }
@@ -117,4 +46,92 @@ module.exports.refreshToken = async (req, res) => {
     console.error("Lỗi khi refresh token:", error);
     res.status(500).json("Đã có lỗi xảy ra khi cố gắng refresh token");
   }
+};
+
+module.exports.register = async (user) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashed = await bcrypt.hash(user.password.trim(), salt);
+  // tạo mới user
+  const newAccount = await new Account({
+    phone: user.phone.trim(),
+    username: user.phone.trim(),
+    password: hashed,
+  });
+  // lưu vào db
+  const result = await newAccount.save();
+  return {
+    status: 201,
+    message: "Đăng ký thành công",
+    result: result,
+  };
+};
+
+module.exports.login = async (body) => {
+  const { phone, password } = body;
+  // Tìm tài khoản trong cơ sở dữ liệu dựa trên phone
+  const findUser = await Account.findOne({ phone: phone.trim() });
+  // Kiểm tra xem tài khoản có tồn tại không
+  if (!findUser) {
+    return {
+      status: 401,
+      message: "Tên đăng nhập không tồn tại",
+    };
+  }
+  // Kiểm tra mật khẩu
+  const isPasswordValid = await bcrypt.compare(
+    password.trim(), // loại bỏ dấu cách thừa ở đầu cuối
+    findUser.password
+  );
+  if (!isPasswordValid) {
+    return {
+      status: 401,
+      message: "Lỗi đăng nhập",
+    };
+  }
+  const accessToken = module.exports.generateAccessToken(findUser._id);
+  const refreshToken = module.exports.generateRefreshToken(findUser._id);
+  return {
+    status: 200,
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  };
+};
+
+module.exports.getDataUserLogin = async (token) => {
+  const decoded = jwt.verify(token, process.env.JWT_ACCESS_KEY);
+  console.log(decoded);
+  // Lấy ID của người dùng từ token
+  const userId = decoded._id;
+  const user = await Account.findById(userId);
+  if (!user) {
+    return {
+      status: 404,
+      message: "User not found",
+    };
+  }
+  return {
+    status: 200,
+    user: user,
+  };
+};
+
+module.exports.logOut = async (user) => {
+  // Clear cookies khi ng dùng đăng xuất
+  // refreshTokens = refreshTokens.filter((token) => token !== user.token);
+  const { token } = user;
+  await RefreshToken.findOneAndDelete({ token });
+  return {
+    status: 200,
+    message: "Logged out successfully!",
+  };
+};
+
+module.exports.generateAccessToken = (_id) => {
+  return jwt.sign(
+    {
+      _id: _id,
+    },
+    process.env.JWT_ACCESS_KEY,
+    { expiresIn: "2h" }
+  );
 };

@@ -1,7 +1,7 @@
 const { Account } = require("../../models/Account.model");
 
-module.exports.profile = async (username) => {
-  const result = await Account.findOne({ username }).populate({
+module.exports.profile = async (phone) => {
+  const result = await Account.findOne({ phone }).populate({
     path: "posts",
     select: "_id image status content",
   });
@@ -31,4 +31,26 @@ module.exports.searchService = async (searchString) => {
       message: "Search not found",
     };
   }
+};
+
+// edit profile
+module.exports.editProfileService = async (userId, body) => {
+  const { username, name, bio, gender } = body;
+  console.log(name);
+  const findUser = await Account.findByIdAndUpdate(
+    userId,
+    { $set: { username: username, name: name, bio: bio, gender: gender } },
+    { new: true }
+  );
+  if (!findUser) {
+    return {
+      status: 404,
+      message: "User not found",
+    };
+  }
+  return {
+    status: 200,
+    message: "Update success",
+    user: findUser,
+  };
 };

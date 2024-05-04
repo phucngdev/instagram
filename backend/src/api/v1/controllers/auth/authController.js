@@ -13,15 +13,8 @@ module.exports.registerUser = async (req, res) => {
 module.exports.loginUser = async (req, res) => {
   try {
     const result = await authService.login(req.body);
-    if (result?.status === 200) {
-      const accessToken = await authService.generateAccessToken(
-        result.data.user
-      );
-      return res
-        .status(result.status)
-        .json({ result: result, accessToken: accessToken });
-    }
-    return res.status(result.status).json({ result: result });
+    console.log(result);
+    return res.status(result.status).json(result);
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -32,4 +25,15 @@ module.exports.logOutUser = async (req, res) => {
   const result = await authService.logOut(req.body);
   res.clearCookie("refreshToken");
   return res.status(200).json(result);
+};
+
+module.exports.getDataUserLogin = async (req, res) => {
+  try {
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const result = await authService.getDataUserLogin(token);
+    res.status(result.status).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
