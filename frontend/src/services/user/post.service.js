@@ -9,3 +9,12 @@ export const createPost = createAsyncThunk("post/posts", async (data) => {
     console.log(error);
   }
 });
+
+export const newFeed = createAsyncThunk("get/newfeed", async (id) => {
+  try {
+    const response = await BaseUrl.get(`post/newfeed/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+});

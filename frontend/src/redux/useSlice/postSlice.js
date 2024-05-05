@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost } from "../../services/user/post.service";
+import { createPost, newFeed } from "../../services/user/post.service";
 
 const postSlice = createSlice({
   name: "post",
@@ -18,6 +18,17 @@ const postSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(createPost.rejected, (state, action) => {
+        state.status = "Failed!";
+        state.error = action.error.message;
+      })
+      .addCase(newFeed.pending, (state) => {
+        state.status = "Pending!";
+      })
+      .addCase(newFeed.fulfilled, (state, action) => {
+        state.status = "Successfully!";
+        state.data = action.payload;
+      })
+      .addCase(newFeed.rejected, (state, action) => {
         state.status = "Failed!";
         state.error = action.error.message;
       });

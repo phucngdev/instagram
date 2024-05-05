@@ -19,16 +19,14 @@ module.exports.checkphone = async (req, res, next) => {
 };
 
 module.exports.verifyTokenLogin = (req, res, next) => {
-  const token = req.headers.token;
-  const refreshToken = req.cookies.refreshToken;
+  const token = req.header("Authorization").replace("Bearer ", "");
   if (token) {
-    const accessToken = token.split(" ")[1];
-    jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
+    jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, decoded) => {
       if (err) {
-        res.status(403).json("Token không tồn tại!");
+        res.status(401).json("Token không hợp lệ!");
+      } else {
+        next();
       }
-      req.user = user;
-      next();
     });
   } else {
     res.status(401).json("Token không tồn tại!");

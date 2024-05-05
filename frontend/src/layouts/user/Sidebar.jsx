@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../../public/logo_text.png";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BellOutlined,
@@ -17,17 +17,17 @@ import {
   SearchOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Button, Modal, Spin } from "antd";
-import { useDispatch } from "react-redux";
+import { Modal, Spin, message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/user/auth.service";
 import "../../assets/user/LayoutSidebar.css";
 import Cookies from "js-cookie";
 import DrawerSearch from "../../components/user/search/Drawer";
 import ModalCreate from "../../components/user/post/ModalCreate";
-// import ModalCreate from "./createpost/ModalCreate";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.auth.data);
   const navigate = useNavigate();
   const [openMore, setOpenMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,13 +46,17 @@ const Sidebar = () => {
   const handleLogout = () => {
     setIsLoading(true);
     setOpenMore(false);
-    const tokenCookie = JSON.parse(Cookies.get("token"));
     setTimeout(async () => {
-      await dispatch(logout(tokenCookie));
-      Cookies.remove("user");
-      Cookies.remove("token");
-      setIsLoading(false);
-      navigate("/accounts/login");
+      const response = await dispatch(logout());
+      if (response?.payload?.status === 200) {
+        Cookies.remove("user");
+        Cookies.remove("token");
+        setIsLoading(false);
+        navigate("/accounts/login");
+      } else {
+        setIsLoading(false);
+        message.error("Lỗi đăng xuất, thử lại!");
+      }
     }, 2000);
   };
 
@@ -125,10 +129,14 @@ const Sidebar = () => {
             Create
           </button>
           <NavLink
-            to="/profile"
-            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-3 rounded-md hover:bg-[#363636]"
+            to={`/${userLogin?.username}`}
+            className="w-full h-[52px] text-white flex items-center px-6 cursor-pointer gap-2 rounded-md hover:bg-[#363636]"
           >
-            <IdcardOutlined />
+            <img
+              src={userLogin?.avatar}
+              alt=""
+              className="rounded-full w-6 h-6 -ms-1"
+            />
             Profile
           </NavLink>
         </div>

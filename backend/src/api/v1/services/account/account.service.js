@@ -1,7 +1,7 @@
 const { Account } = require("../../models/Account.model");
 
-module.exports.profile = async (phone) => {
-  const result = await Account.findOne({ phone }).populate({
+module.exports.profile = async (username) => {
+  const result = await Account.findOne({ username }).populate({
     path: "posts",
     select: "_id image status content",
   });

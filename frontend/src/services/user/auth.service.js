@@ -20,9 +20,9 @@ export const register = createAsyncThunk("register", async (data) => {
   }
 });
 
-export const logout = createAsyncThunk("logout", async (data) => {
+export const logout = createAsyncThunk("logout", async () => {
   try {
-    let response = await BaseUrl.post("auth/logout", data);
+    let response = await BaseUrl.post("auth/logout");
     return response;
   } catch (error) {
     console.log(error);

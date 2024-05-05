@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import "../../../assets/user/ModalCreate.css";
 import { upload } from "../../../utils/uploadImage";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../services/user/post.service";
+import { createPost, newFeed } from "../../../services/user/post.service";
 
 const { TextArea } = Input;
 const ModalCreate = ({ openCreate, setOpenCreate }) => {

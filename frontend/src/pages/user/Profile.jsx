@@ -59,7 +59,7 @@ const Profile = () => {
 
   const renderBio = () => {
     const bioLines = user?.bio.split("\n");
-    return bioLines.map((line, index) => (
+    return bioLines?.map((line, index) => (
       <React.Fragment key={index}>
         {line} <br />
       </React.Fragment>

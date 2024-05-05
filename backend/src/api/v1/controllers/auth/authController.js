@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const authService = require("../../services/auth/auth.service");
 
 module.exports.registerUser = async (req, res) => {
@@ -13,18 +12,21 @@ module.exports.registerUser = async (req, res) => {
 module.exports.loginUser = async (req, res) => {
   try {
     const result = await authService.login(req.body);
-    console.log(result);
     return res.status(result.status).json(result);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
 module.exports.logOutUser = async (req, res) => {
-  // Clear cookies khi ng dùng đăng xuất
-  const result = await authService.logOut(req.body);
-  res.clearCookie("refreshToken");
-  return res.status(200).json(result);
+  try {
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const result = await authService.logOut(token);
+    res.clearCookie("refreshToken");
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 module.exports.getDataUserLogin = async (req, res) => {
