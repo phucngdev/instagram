@@ -22,7 +22,9 @@ const PostLayout = () => {
   const [posts, setPosts] = useState(dataPost?.newfeed || []);
 
   const getNewFeed = async () => {
-    await dispatch(newFeed(user?._id));
+    if (user) {
+      await dispatch(newFeed(user?._id));
+    }
   };
 
   useEffect(() => {

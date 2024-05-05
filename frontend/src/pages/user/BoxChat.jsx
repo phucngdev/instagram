@@ -181,7 +181,7 @@ const BoxChat = () => {
                   return (
                     <>
                       {shouldDisplayDate && (
-                        <div className="text-white text-center">
+                        <div key={index} className="text-white text-center">
                           {formatTimeCreated(ib.createdAt)}
                         </div>
                       )}

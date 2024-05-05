@@ -1,7 +1,7 @@
 module.exports.socketConnect = () => {
   return (socket) => {
     // gửi tin nhắn
-    socket.on("sendDataClient", function (data) {
+    socket.on("sendDataClient", (data) => {
       // emit để gửi đến client
       _io.emit("sendDataServer", { data });
     });

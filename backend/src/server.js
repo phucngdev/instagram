@@ -4,6 +4,7 @@ const server = http.createServer(app);
 require("dotenv").config();
 const connectDB = require("./config/connect");
 const socketService = require("./api/v1/services/socket/socket.service");
+
 // kết nối db mongodb
 connectDB();
 

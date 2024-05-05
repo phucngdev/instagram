@@ -15,7 +15,9 @@ const DrawerSearch = ({ onClose, open }) => {
 
   useEffect(() => {
     const debouncedSearchByQuery = _debounce(async () => {
-      await dispatch(getDataByQuery(query));
+      if (query.trim() !== "") {
+        await dispatch(getDataByQuery(query));
+      }
     }, 300);
     debouncedSearchByQuery();
     return () => {

@@ -51,6 +51,8 @@ const Sidebar = () => {
       if (response?.payload?.status === 200) {
         Cookies.remove("user");
         Cookies.remove("token");
+        Cookies.remove("refreshToken");
+        Cookies.set("isLogin", JSON.stringify(false));
         setIsLoading(false);
         navigate("/accounts/login");
       } else {

@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBjpdxd8kj8h77TprOhlw-8YAplw4JbSVo",
-  authDomain: "instagram-7c64a.firebaseapp.com",
-  projectId: "instagram-7c64a",
-  storageBucket: "instagram-7c64a.appspot.com",
-  messagingSenderId: "909755026788",
-  appId: "1:909755026788:web:c55be57d2f7393c2b0fe71",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
