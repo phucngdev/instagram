@@ -1,14 +1,11 @@
 import {
-  AppstoreOutlined,
   BookOutlined,
-  HeartFilled,
   InsertRowAboveOutlined,
-  MessageFilled,
   TagOutlined,
 } from "@ant-design/icons";
 import React from "react";
 import { Link } from "react-router-dom";
-import PostProfile from "../post/PostProfile";
+import PostProfile from "./itempost/PostProfile";
 
 const PostList = ({ post }) => {
   return (
@@ -29,7 +26,9 @@ const PostList = ({ post }) => {
           </Link>
         </nav>
         <div className="grid grid-cols-3 gap-1 mt-10">
-          <PostProfile post={post} />
+          {post?.map((p) => (
+            <PostProfile p={p} />
+          ))}
         </div>
       </div>
     </>

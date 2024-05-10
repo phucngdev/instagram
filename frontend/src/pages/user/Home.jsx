@@ -1,7 +1,7 @@
 import React from "react";
 import Suggest from "../../layouts/user/Suggest";
 import { Helmet } from "react-helmet";
-import NewFeed from "../../components/user/home/NewFeed";
+import NewFeed from "../../components/user/post/newfeed/NewFeed";
 
 const Home = () => {
   return (

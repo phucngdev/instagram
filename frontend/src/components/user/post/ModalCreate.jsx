@@ -6,7 +6,7 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 import { Input, Modal, Select, message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../assets/user/ModalCreate.css";
 import { upload } from "../../../utils/uploadImage";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +14,18 @@ import { createPost, newFeed } from "../../../services/user/post.service";
 
 const { TextArea } = Input;
 const ModalCreate = ({ openCreate, setOpenCreate }) => {
-  const user = useSelector((state) => state.auth.data);
+  const userLogin = useSelector((state) => state.auth.data);
   const dispatch = useDispatch();
   const [urlPhotoNew, setUrlPhotoNew] = useState("");
   const [caption, setCaption] = useState("");
   const [status, setStatus] = useState("");
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    if (userLogin) {
+      setUser(userLogin);
+    }
+  }, [userLogin]);
 
   const handleChangeImage = async (e) => {
     const photoUrl = await upload(e.target, "posts");
@@ -31,7 +38,7 @@ const ModalCreate = ({ openCreate, setOpenCreate }) => {
       return;
     }
     const newPost = {
-      userId: user?._id,
+      author: user?._id,
       image: urlPhotoNew,
       content: caption,
       status: status,

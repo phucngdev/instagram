@@ -10,16 +10,12 @@ const Follow = ({ user }) => {
   return (
     <>
       <div className="flex text-[16px] items-center gap-10 text-white mt-5">
-        <h3>{user?.posts?.length || 0} posts</h3>
+        <h3>{user?.posts?.length} posts</h3>
         <h3 className="cursor-pointer" onClick={() => setOpenFollower(true)}>
-          {user?.followers?.length || 0} followers
+          {user?.followers?.length} followers
         </h3>
         <Modal
-          title={
-            <>
-              <h3 className="bg-black text-center text-white">Followers</h3>
-            </>
-          }
+          title={<h3 className="bg-black text-center text-white">Followers</h3>}
           centered
           open={openFollower}
           onOk={() => setOpenFollower(false)}
@@ -36,7 +32,7 @@ const Follow = ({ user }) => {
                       <Link>
                         <img
                           className="w-[38px] h-[38px] border-2 border-black rounded-full object-cover"
-                          src={item?.photoUrl}
+                          src={item?.image}
                           alt=""
                         />
                       </Link>
@@ -48,7 +44,7 @@ const Follow = ({ user }) => {
                         </span>
                       </Link>
                       <span className="text-[#a8a8a8] text-[13px] font-normal">
-                        {item?.fullname}
+                        {item?.name}
                       </span>
                     </div>
                   </div>
@@ -63,7 +59,7 @@ const Follow = ({ user }) => {
           </div>
         </Modal>
         <h3 className="cursor-pointer" onClick={() => setOpenFollowing(true)}>
-          {user?.following?.length || 0} following
+          {user?.following?.length} following
         </h3>
         <Modal
           title={

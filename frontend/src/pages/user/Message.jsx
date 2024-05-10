@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import ListChat from "../../components/user/message/ListChat";
+import React from "react";
+import ListChat from "../../components/user/message/listchat/ListChat";
 import NotMessage from "../../layouts/user/NotMessage";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
 
 const Message = () => {
   return (

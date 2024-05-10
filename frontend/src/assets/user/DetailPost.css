@@ -1,0 +1,7 @@
+.detail-post-custom .ant-modal,
+.detail-post-custom .ant-modal-content {
+  height: 90% !important;
+}
+.input-detail-post-custom input::placeholder {
+  color: #a8a8a8 !important;
+}

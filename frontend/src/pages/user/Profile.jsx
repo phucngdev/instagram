@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import {
   CloseOutlined,
   EllipsisOutlined,
   SettingOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Image, Modal } from "antd";
+import { Button, Image, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataUser } from "../../services/user/account.service";
-import Cookies from "js-cookie";
 import { createRoomSingle } from "../../services/user/room.service";
 import UploadImage from "../../components/user/profile/UploadImage";
-import Follow from "../../components/user/pro/Follow";
-import HighLight from "../../components/user/pro/HighLight";
-import PostList from "../../components/user/pro/PostList";
+import PostList from "../../components/user/profile/listposts/PostList";
+import HighLight from "../../components/user/profile/HighLight";
+import Follow from "../../components/user/profile/Follow";
 
 const Profile = () => {
   const dispatch = useDispatch();

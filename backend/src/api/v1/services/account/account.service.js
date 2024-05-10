@@ -3,7 +3,7 @@ const { Account } = require("../../models/Account.model");
 module.exports.profile = async (username) => {
   const result = await Account.findOne({ username }).populate({
     path: "posts",
-    select: "_id image status content",
+    select: "_id image status content likes comment createdAt",
   });
   return {
     status: 200,
